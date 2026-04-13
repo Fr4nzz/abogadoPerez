@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cjhperez.com/sitemap-index.xml

@@ -1,0 +1,84 @@
+---
+interface Props {
+  target: number;
+  suffix?: string;
+  label: string;
+}
+
+const { target, suffix = '', label }: Props = Astro.props;
+---
+
+<div class="text-center" data-reveal>
+  <div
+    data-counter
+    data-target={target}
+    data-suffix={suffix}
+    class="font-serif text-4xl font-bold text-primary md:text-5xl dark:text-accent"
+  >
+    0{suffix}
+  </div>
+  <p class="mt-3 text-sm uppercase tracking-wider text-muted-foreground">{label}</p>
+</div>
+
+<script is:inline>
+  if (!window.__counterBlockInit) {
+    window.__counterBlockInit = true;
+
+    const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
+
+    const animateCounter = (element) => {
+      if (!(element instanceof HTMLElement) || element.dataset.counterAnimated === 'true') {
+        return;
+      }
+
+      const target = Number(element.dataset.target ?? '0');
+      const suffix = element.dataset.suffix ?? '';
+      const duration = 2000;
+      const start = performance.now();
+
+      element.dataset.counterAnimated = 'true';
+
+      const frame = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = easeOutCubic(progress);
+        const value = Math.round(target * eased);
+
+        element.textContent = `${value}${suffix}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          element.textContent = `${target}${suffix}`;
+        }
+      };
+
+      requestAnimationFrame(frame);
+    };
+
+    const initCounters = () => {
+      const counters = document.querySelectorAll('[data-counter]');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+
+      counters.forEach((counter) => {
+        if (counter instanceof HTMLElement && counter.dataset.counterObserved !== 'true') {
+          counter.dataset.counterObserved = 'true';
+          counter.textContent = `0${counter.dataset.suffix ?? ''}`;
+          observer.observe(counter);
+        }
+      });
+    };
+
+    initCounters();
+    document.addEventListener('astro:page-load', initCounters);
+  }
+</script>

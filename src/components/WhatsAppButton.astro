@@ -1,0 +1,46 @@
+---
+import { siteConfig } from '../data/siteConfig';
+---
+
+<div class="fixed right-6 bottom-6 z-50">
+  <a
+    href={siteConfig.whatsappUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contáctenos por WhatsApp"
+    class="group relative flex items-center justify-center"
+  >
+    <span
+      class="pointer-events-none absolute right-full mr-3 hidden -translate-x-2 rounded-full border border-white/15 bg-primary/95 px-4 py-2 text-sm font-medium whitespace-nowrap text-white opacity-0 shadow-lg shadow-black/20 transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 dark:bg-[#0a1628]/95 md:flex md:invisible md:group-hover:visible"
+    >
+      Escríbanos por WhatsApp
+    </span>
+
+    <span
+      class="whatsapp-pulse flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition duration-300 hover:bg-[#20BD5A] md:h-16 md:w-16"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="h-7 w-7 md:h-[1.75rem] md:w-[1.75rem]" aria-hidden="true">
+        <path d="M19.11 17.39c-.27-.14-1.58-.78-1.82-.87-.24-.09-.42-.14-.6.14-.17.27-.69.87-.84 1.05-.16.18-.31.2-.58.07-.27-.14-1.13-.41-2.15-1.31-.8-.71-1.34-1.58-1.5-1.85-.16-.27-.02-.42.12-.56.12-.12.27-.31.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.6-1.44-.82-1.97-.22-.53-.44-.45-.6-.46h-.52c-.18 0-.47.07-.72.34-.24.27-.94.92-.94 2.24s.96 2.6 1.09 2.78c.14.18 1.88 2.87 4.56 4.03.64.27 1.13.43 1.52.55.64.2 1.22.17 1.68.11.51-.08 1.58-.65 1.8-1.27.22-.62.22-1.15.15-1.26-.07-.12-.25-.18-.52-.31Z" />
+        <path d="M16.02 3.2c-7.07 0-12.8 5.73-12.8 12.8 0 2.25.58 4.45 1.7 6.39L3.1 28.9l6.67-1.75a12.7 12.7 0 0 0 6.25 1.62h.01c7.06 0 12.79-5.73 12.79-12.8 0-3.42-1.33-6.63-3.75-9.05A12.68 12.68 0 0 0 16.02 3.2Zm0 23.42h-.01a10.6 10.6 0 0 1-5.4-1.48l-.39-.23-3.96 1.04 1.06-3.86-.25-.4a10.63 10.63 0 1 1 18.96-5.69c0 5.87-4.77 10.62-10.61 10.62Z" />
+      </svg>
+    </span>
+  </a>
+</div>
+
+<style>
+  @keyframes whatsapp-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+  }
+
+  .whatsapp-pulse {
+    animation: whatsapp-pulse 2.4s infinite;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .whatsapp-pulse {
+      animation: none;
+    }
+  }
+</style>

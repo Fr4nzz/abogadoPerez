@@ -1,0 +1,287 @@
+---
+import CTABanner from '../components/CTABanner.astro';
+import { services } from '../data/services';
+import { siteConfig } from '../data/siteConfig';
+import Layout from '../layouts/Layout.astro';
+
+const serviceTitles = services.map((service) => service.title);
+const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
+---
+
+<Layout
+  title="Contacto"
+  description="Contáctenos para una consulta legal. Visítenos en Quito, Av. 6 de Diciembre y Hermanos Pazmiño, sector El Ejido."
+>
+  <section class="bg-primary py-20 text-center text-white">
+    <div class="mx-auto max-w-4xl px-6" data-reveal>
+      <h1 class="font-serif text-4xl font-bold md:text-5xl">Contáctenos</h1>
+      <p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-white/85 md:text-lg">
+        Estamos aquí para ayudarle. Escríbanos o visítenos en nuestra oficina.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-2">
+      <div data-reveal>
+        <div class="rounded-xl border border-border bg-card p-8">
+          <h2 class="font-serif text-3xl font-bold text-foreground">Envíenos un mensaje</h2>
+          <p class="mt-3 text-sm leading-6 text-muted-foreground">
+            Complete el formulario y nos pondremos en contacto con usted a la brevedad.
+          </p>
+
+          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="mt-8 space-y-5">
+            <!-- Reemplace YOUR_FORM_ID con su ID de Formspree. Cree una cuenta en formspree.io -->
+            <div>
+              <label for="nombre" class="mb-2 block text-sm font-semibold text-foreground">
+                Nombre completo
+              </label>
+              <input
+                id="nombre"
+                type="text"
+                name="nombre"
+                required
+                class="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="mb-2 block text-sm font-semibold text-foreground">
+                Correo electrónico
+              </label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                required
+                class="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent"
+              />
+            </div>
+
+            <div>
+              <label for="telefono" class="mb-2 block text-sm font-semibold text-foreground">
+                Teléfono
+              </label>
+              <input
+                id="telefono"
+                type="tel"
+                name="telefono"
+                class="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent"
+              />
+            </div>
+
+            <div>
+              <label for="asunto" class="mb-2 block text-sm font-semibold text-foreground">Asunto</label>
+              <select
+                id="asunto"
+                name="asunto"
+                required
+                class="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent"
+              >
+                <option value="" disabled selected>Seleccione un asunto</option>
+                {serviceTitles.map((title) => <option value={title}>{title}</option>)}
+                <option value="Consulta general">Consulta general</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="mensaje" class="mb-2 block text-sm font-semibold text-foreground">Mensaje</label>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                rows="5"
+                required
+                class="w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent"
+              ></textarea>
+            </div>
+
+            <input type="text" name="_gotcha" style="display:none" />
+
+            <button
+              type="submit"
+              class="w-full rounded-lg bg-accent px-8 py-3 font-semibold text-accent-foreground transition hover:bg-accent/90"
+            >
+              Enviar Mensaje
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="space-y-6" data-reveal>
+        <div class="flex items-start gap-4 rounded-lg border border-border bg-card p-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-6 w-6 flex-shrink-0 text-accent"
+            aria-hidden="true"
+          >
+            <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z"></path>
+            <circle cx="12" cy="10" r="2.5"></circle>
+          </svg>
+          <div>
+            <h2 class="text-lg font-semibold text-foreground">Dirección</h2>
+            <p class="mt-1 leading-7 text-muted-foreground">{fullAddress}</p>
+            <p class="text-sm text-muted-foreground">Referencia: {siteConfig.address.reference}</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 rounded-lg border border-border bg-card p-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-6 w-6 flex-shrink-0 text-accent"
+            aria-hidden="true"
+          >
+            <path d="M5 4h4l2 5-2.5 1.5a16.3 16.3 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 3 6.2 2 2 0 0 1 5 4Z"></path>
+          </svg>
+          <div>
+            <h2 class="text-lg font-semibold text-foreground">Teléfono</h2>
+            <a href="tel:+593993646082" class="mt-1 inline-block text-muted-foreground transition hover:text-accent">
+              0993646082
+            </a>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 rounded-lg border border-border bg-card p-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-6 w-6 flex-shrink-0 text-accent"
+            aria-hidden="true"
+          >
+            <path d="M20 11.5A8.5 8.5 0 0 1 7.4 19l-3.4 1 1.1-3.2A8.5 8.5 0 1 1 20 11.5Z"></path>
+            <path d="M9.2 8.8c.2-.5.4-.5.7-.5h.6c.2 0 .5 0 .7.5l.5 1.3c.1.3 0 .6-.2.8l-.5.6c-.2.2-.2.4-.1.6.4.7 1 1.3 1.7 1.8.2.1.5.1.6-.1l.6-.5c.2-.2.5-.3.8-.2l1.3.5c.5.2.5.5.5.7v.6c0 .3 0 .5-.5.7-.5.2-1.6.4-3-.2a9.3 9.3 0 0 1-4.2-4.2c-.6-1.4-.4-2.5-.2-3Z"></path>
+          </svg>
+          <div>
+            <h2 class="text-lg font-semibold text-foreground">WhatsApp</h2>
+            <a
+              href={siteConfig.whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              class="mt-1 inline-block text-muted-foreground transition hover:text-accent"
+            >
+              Escríbanos por WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 rounded-lg border border-border bg-card p-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-6 w-6 flex-shrink-0 text-accent"
+            aria-hidden="true"
+          >
+            <path d="M4 6h16v12H4z"></path>
+            <path d="m4 7 8 6 8-6"></path>
+          </svg>
+          <div>
+            <h2 class="text-lg font-semibold text-foreground">Email</h2>
+            <a
+              href="mailto:perez_hector03@hotmail.com"
+              class="mt-1 inline-block break-all text-muted-foreground transition hover:text-accent"
+            >
+              {siteConfig.email}
+            </a>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 rounded-lg border border-border bg-card p-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-6 w-6 flex-shrink-0 text-accent"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v5l3 3"></path>
+          </svg>
+          <div>
+            <h2 class="text-lg font-semibold text-foreground">Horario</h2>
+            <p class="mt-1 leading-7 text-muted-foreground">{siteConfig.officeHours}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-card py-16">
+    <div class="mx-auto max-w-6xl px-6" data-reveal>
+      <div class="max-w-3xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.28em] text-accent">Ubicación</p>
+        <h2 class="mt-3 font-serif text-3xl font-bold text-foreground md:text-4xl">Cómo Llegar</h2>
+        <p class="mt-4 text-base leading-7 text-muted-foreground">
+          Nuestra oficina se encuentra en una zona céntrica y de fácil acceso en Quito.
+        </p>
+      </div>
+
+      <div class="mt-8 overflow-hidden rounded-xl border border-border">
+        <iframe
+          src="https://maps.google.com/maps?q=-0.2130,-78.4995&z=15&output=embed"
+          width="100%"
+          height="400"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          title="Ubicación de Consorcio Jurídico HP"
+          class="rounded-xl"
+        ></iframe>
+      </div>
+
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        <div class="rounded-xl border border-border bg-background/70 p-6">
+          <h3 class="text-lg font-semibold text-foreground">Referencia</h3>
+          <p class="mt-2 leading-7 text-muted-foreground">
+            Junto a la Asamblea Nacional del Ecuador, sector El Ejido
+          </p>
+        </div>
+        <div class="rounded-xl border border-border bg-background/70 p-6">
+          <h3 class="text-lg font-semibold text-foreground">En metro</h3>
+          <p class="mt-2 leading-7 text-muted-foreground">
+            Estación más cercana: El Ejido (Línea 1 del Metro de Quito)
+          </p>
+        </div>
+        <div class="rounded-xl border border-border bg-background/70 p-6">
+          <h3 class="text-lg font-semibold text-foreground">En taxi</h3>
+          <p class="mt-2 leading-7 text-muted-foreground">
+            Solicite que lo lleven a la Av. 6 de Diciembre y Hermanos Pazmiño, junto a la Asamblea Nacional
+          </p>
+        </div>
+        <div class="rounded-xl border border-border bg-background/70 p-6">
+          <h3 class="text-lg font-semibold text-foreground">En auto</h3>
+          <p class="mt-2 leading-7 text-muted-foreground">
+            Estacionamiento disponible en calles aledañas. Referencia: edificio [INSERTAR NOMBRE DEL EDIFICIO]
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</Layout>

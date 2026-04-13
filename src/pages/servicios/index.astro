@@ -1,0 +1,55 @@
+---
+import CTABanner from '../../components/CTABanner.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { services } from '../../data/services';
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Áreas de Práctica"
+  description="Conozca nuestras áreas de práctica legal: derecho penal, familia, laboral, civil, tránsito y más."
+>
+  <section class="bg-primary py-20 text-center text-white">
+    <div class="mx-auto max-w-4xl px-6">
+      <p class="text-sm font-semibold uppercase tracking-[0.32em] text-accent" data-reveal>
+        Servicios legales en Ecuador
+      </p>
+      <h1 class="mt-4 text-4xl font-serif font-bold md:text-5xl" data-reveal>
+        Nuestras Áreas de Práctica
+      </h1>
+      <p class="mx-auto mt-5 max-w-3xl text-base leading-7 text-white/80 md:text-lg" data-reveal>
+        Ofrecemos asesoría legal integral en diversas materias del Derecho ecuatoriano
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="mx-auto max-w-3xl text-center" data-reveal>
+        <p class="text-sm font-semibold uppercase tracking-[0.32em] text-accent">
+          Cobertura multidisciplinaria
+        </p>
+        <p class="mt-4 text-base leading-7 text-muted-foreground md:text-lg">
+          Nuestro estudio jurídico atiende conflictos, trámites y estrategias preventivas en materias
+          civiles, penales, laborales, familiares, administrativas y empresariales, con un enfoque
+          técnico y cercano para cada cliente.
+        </p>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {
+          services.map((service) => (
+            <ServiceCard
+              title={service.title}
+              description={service.shortDescription}
+              icon={service.icon}
+              slug={service.slug}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CTABanner />
+</Layout>

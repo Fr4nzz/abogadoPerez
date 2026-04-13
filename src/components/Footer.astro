@@ -1,0 +1,159 @@
+---
+import { navigation } from '../data/navigation';
+import { siteConfig } from '../data/siteConfig';
+
+const quickLinkHrefs = ['/', '/nosotros', '/servicios', '/preguntas-frecuentes', '/contacto'];
+const quickLinks = quickLinkHrefs.flatMap((href) => {
+  const item = navigation.find((navItem) => navItem.href === href);
+
+  if (!item) return [];
+
+  return [{
+    label: item.href === '/preguntas-frecuentes' ? 'FAQ' : item.label,
+    href: item.href,
+  }];
+});
+
+const practiceLinks = navigation.find((item) => item.href === '/servicios')?.children?.slice(0, 6) ?? [];
+
+const fullAddress = [
+  siteConfig.address.street,
+  siteConfig.address.sector,
+  `${siteConfig.address.city}, ${siteConfig.address.province}`,
+  siteConfig.address.reference,
+].filter(Boolean).join(' · ');
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-primary text-white py-12 md:py-16 dark:bg-[#0a1628]">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 xl:gap-12">
+      <section class="space-y-5">
+        <a href="/" class="inline-flex items-center gap-4" aria-label={`Ir al inicio de ${siteConfig.shortName}`}>
+          <img
+            src="/logo.png"
+            alt={`Logo de ${siteConfig.shortName}`}
+            class="h-12 w-12 rounded-full border border-white/15 bg-white/10 object-cover p-1 shadow-lg shadow-black/15"
+            width="48"
+            height="48"
+            loading="lazy"
+          />
+          <div>
+            <p class="font-serif text-lg font-bold leading-tight text-white">{siteConfig.shortName}</p>
+            <p class="mt-1 text-sm leading-relaxed text-white/72">{siteConfig.tagline}</p>
+          </div>
+        </a>
+
+        <p class="max-w-sm text-sm leading-7 text-white/78">
+          {siteConfig.description}
+        </p>
+
+        <a
+          href={siteConfig.social.facebook}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visitar Facebook de Consorcio Jurídico HP"
+          class="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-sm font-medium text-white transition hover:border-accent hover:bg-white/12 hover:text-accent"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5" aria-hidden="true">
+            <path d="M13.5 21v-7h2.35l.4-3h-2.75V9.19c0-.87.24-1.46 1.49-1.46H16.4V5.05c-.24-.03-1.08-.1-2.05-.1-2.04 0-3.43 1.24-3.43 3.54V11H8.6v3h2.32v7h2.58Z" />
+          </svg>
+          <span>Síganos en Facebook</span>
+        </a>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-lg font-bold text-white">Enlaces Rápidos</h2>
+        <ul class="mt-5 space-y-3 text-sm">
+          {quickLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-white transition hover:text-accent">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-lg font-bold text-white">Áreas de Práctica</h2>
+        <ul class="mt-5 space-y-3 text-sm leading-6">
+          {practiceLinks.map((service) => (
+            <li>
+              <a href={service.href} class="text-white/88 transition hover:text-accent">
+                {service.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <a
+          href="/servicios"
+          class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-white"
+        >
+          <span>Ver todos</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </section>
+
+      <section>
+        <h2 class="font-serif text-lg font-bold text-white">Contáctenos</h2>
+        <ul class="mt-5 space-y-4 text-sm leading-6 text-white/82">
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 5.278 6.44 11.24 7.083 11.83a.625.625 0 0 0 .834 0c.642-.59 7.083-6.552 7.083-11.83a7.5 7.5 0 0 0-7.5-7.5Zm0 10.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" clip-rule="evenodd" />
+            </svg>
+            <span>{fullAddress}</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true">
+              <path d="M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.1.36 2.28.55 3.49.55a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.85 21 3 13.15 3 3.99a1 1 0 0 1 1-1H7.5a1 1 0 0 1 1 1c0 1.21.19 2.39.55 3.49a1 1 0 0 1-.24 1.01l-2.19 2.3Z" />
+            </svg>
+            <a href={`tel:${siteConfig.phoneInternational}`} class="transition hover:text-accent" aria-label={`Llamar al ${siteConfig.phone}`}>
+              {siteConfig.phone}
+            </a>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true">
+              <path d="M19.11 17.39c-.27-.14-1.58-.78-1.82-.87-.24-.09-.42-.14-.6.14-.17.27-.69.87-.84 1.05-.16.18-.31.2-.58.07-.27-.14-1.13-.41-2.15-1.31-.8-.71-1.34-1.58-1.5-1.85-.16-.27-.02-.42.12-.56.12-.12.27-.31.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.6-1.44-.82-1.97-.22-.53-.44-.45-.6-.46h-.52c-.18 0-.47.07-.72.34-.24.27-.94.92-.94 2.24s.96 2.6 1.09 2.78c.14.18 1.88 2.87 4.56 4.03.64.27 1.13.43 1.52.55.64.2 1.22.17 1.68.11.51-.08 1.58-.65 1.8-1.27.22-.62.22-1.15.15-1.26-.07-.12-.25-.18-.52-.31Z" />
+              <path d="M16.02 3.2c-7.07 0-12.8 5.73-12.8 12.8 0 2.25.58 4.45 1.7 6.39L3.1 28.9l6.67-1.75a12.7 12.7 0 0 0 6.25 1.62h.01c7.06 0 12.79-5.73 12.79-12.8 0-3.42-1.33-6.63-3.75-9.05A12.68 12.68 0 0 0 16.02 3.2Zm0 23.42h-.01a10.6 10.6 0 0 1-5.4-1.48l-.39-.23-3.96 1.04 1.06-3.86-.25-.4a10.63 10.63 0 1 1 18.96-5.69c0 5.87-4.77 10.62-10.61 10.62Z" />
+            </svg>
+            <a
+              href={siteConfig.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition hover:text-accent"
+              aria-label="Abrir conversación por WhatsApp"
+            >
+              WhatsApp directo
+            </a>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true">
+              <path d="M1.5 6.75A2.25 2.25 0 0 1 3.75 4.5h16.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 17.25V6.75Zm2.78-.75a.75.75 0 0 0-.48 1.32l7.72 6.32a.75.75 0 0 0 .96 0l7.72-6.32A.75.75 0 0 0 19.72 6H4.28Z" />
+            </svg>
+            <a href={`mailto:${siteConfig.email}`} class="transition hover:text-accent" aria-label={`Enviar correo a ${siteConfig.email}`}>
+              {siteConfig.email}
+            </a>
+          </li>
+          <li class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mt-1 h-5 w-5 shrink-0 text-accent" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v8.69l5.28 3.04a.75.75 0 1 1-.75 1.3l-5.62-3.25a.75.75 0 0 1-.38-.65V3a.75.75 0 0 1 .75-.75Zm0 19.5a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" clip-rule="evenodd" />
+            </svg>
+            <span>{siteConfig.officeHours}</span>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="mt-10 border-t border-white/12 pt-6 md:mt-12 md:pt-8">
+      <div class="flex flex-col gap-3 text-sm text-white/70 md:flex-row md:items-center md:justify-between">
+        <p>© {currentYear} Consorcio Jurídico HP</p>
+        <p class="max-w-3xl text-white/60">
+          La información de este sitio es referencial y no constituye asesoría legal definitiva; cada caso requiere revisión profesional individual.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

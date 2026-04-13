@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Merriweather', serif;
+
+  --color-primary: #003366;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #708090;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #FFD700;
+  --color-accent-foreground: #003366;
+  --color-background: #ffffff;
+  --color-foreground: #1a1a1a;
+  --color-card: #f5f5f5;
+  --color-card-foreground: #1a1a1a;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #5a5a5a;
+  --color-border: #e0e0e0;
+  --color-input: #e0e0e0;
+  --color-ring: #003366;
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-info: #0284c7;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  .dark {
+    --color-primary: #1e3a5f;
+    --color-primary-foreground: #f1f5f9;
+    --color-secondary: #334155;
+    --color-secondary-foreground: #f1f5f9;
+    --color-accent: #fbbf24;
+    --color-accent-foreground: #1e3a5f;
+    --color-background: #0f172a;
+    --color-foreground: #f1f5f9;
+    --color-card: #1e293b;
+    --color-card-foreground: #f1f5f9;
+    --color-muted: #1e293b;
+    --color-muted-foreground: #94a3b8;
+    --color-border: #334155;
+    --color-input: #334155;
+    --color-ring: #60a5fa;
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #0f172a;
+    --color-success: #34d399;
+    --color-warning: #fbbf24;
+    --color-info: #38bdf8;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+
+  /* Scroll reveal animations */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  [data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

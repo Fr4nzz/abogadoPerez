@@ -1,0 +1,80 @@
+<button
+  type="button"
+  aria-label="Cambiar tema"
+  class="p-2 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+  data-theme-toggle
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.75"
+    class="icon-moon h-5 w-5"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3c0 5.24 4.25 9.49 9.49 9.79Z"></path>
+  </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-width="1.75"
+    class="icon-sun hidden h-5 w-5"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2.5"></path>
+    <path d="M12 19.5V22"></path>
+    <path d="m4.93 4.93 1.77 1.77"></path>
+    <path d="m17.3 17.3 1.77 1.77"></path>
+    <path d="M2 12h2.5"></path>
+    <path d="M19.5 12H22"></path>
+    <path d="m4.93 19.07 1.77-1.77"></path>
+    <path d="m17.3 6.7 1.77-1.77"></path>
+  </svg>
+</button>
+
+<style is:inline>
+  .icon-sun {
+    display: none;
+  }
+
+  .dark .icon-sun {
+    display: block;
+  }
+
+  .dark .icon-moon {
+    display: none;
+  }
+</style>
+
+<script is:inline>
+  function initThemeToggle() {
+    document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+      if (button.dataset.themeToggleBound === 'true') {
+        return;
+      }
+
+      button.dataset.themeToggleBound = 'true';
+      button.addEventListener('click', () => {
+        const root = document.documentElement;
+        const isDark = root.classList.toggle('dark');
+
+        if (isDark) {
+          localStorage.setItem('theme', 'dark');
+        } else {
+          localStorage.removeItem('theme');
+        }
+      });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initThemeToggle);
+  document.addEventListener('astro:page-load', initThemeToggle);
+</script>

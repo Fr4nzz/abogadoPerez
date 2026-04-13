@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Consorcio Jurídico HP">
+  <rect width="64" height="64" rx="14" fill="#003366" />
+  <path d="M18 46V18h8.5c7.4 0 11.5 3.8 11.5 9.8 0 6.3-4.1 10.2-11.5 10.2H24V46h-6Zm6-13h2.3c3.7 0 5.6-1.8 5.6-5.2 0-3.2-1.9-5-5.6-5H24v10.2Z" fill="#FFD700" />
+  <path d="M41 46V18h6v11h9V18h6v28h-6V34h-9v12h-6Z" fill="#ffffff" />
+</svg>

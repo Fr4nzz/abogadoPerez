@@ -1,0 +1,456 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { navigation } from '../data/navigation';
+import type { NavItem } from '../data/navigation';
+import { siteConfig } from '../data/siteConfig';
+
+const pathname = Astro.url.pathname;
+const homeHref = '/';
+
+const isActive = (href: string) => {
+  if (href === '/') return pathname === '/';
+  if (href === '/servicios') return pathname.startsWith('/servicios');
+  return pathname === href || pathname.startsWith(`${href}/`);
+};
+
+const servicesItem = navigation.find((item) => item.children?.length);
+const primaryItems = navigation.filter((item) => !item.children?.length);
+const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, item, index) => {
+  const columnIndex = Math.floor(index / 5);
+  columns[columnIndex] ??= [];
+  columns[columnIndex].push(item);
+  return columns;
+}, []) ?? [];
+---
+
+<div class="h-20 md:h-24" aria-hidden="true"></div>
+
+<nav
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-primary text-primary-foreground shadow-[0_18px_50px_-28px_rgba(0,0,0,0.65)] backdrop-blur-md"
+  aria-label="Navegación principal"
+  data-navbar-root
+>
+  <div class="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-4">
+    <a
+      href={homeHref}
+      class="group flex min-w-0 items-center gap-3 rounded-full border border-white/10 bg-white/5 px-2.5 py-2 transition duration-300 hover:border-accent/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+      aria-current={pathname === '/' ? 'page' : undefined}
+    >
+      <img src="/logo.png" alt="Consorcio Jurídico HP" class="h-10 w-auto shrink-0" />
+      <span class="min-w-0">
+        <span class="block truncate text-sm font-semibold tracking-[0.24em] text-accent/80 uppercase">
+          Estudio legal
+        </span>
+        <span class="block truncate font-serif text-lg leading-tight text-white transition duration-300 group-hover:text-accent">
+          {siteConfig.shortName}
+        </span>
+      </span>
+    </a>
+
+    <div class="hidden items-center gap-2 md:flex">
+      <ul class="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-2 py-2">
+        {primaryItems.slice(0, 2).map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'rounded-full px-4 py-2 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                isActive(item.href)
+                  ? 'text-accent'
+                  : 'text-white hover:text-accent',
+              ]}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+
+        {servicesItem && (
+          <li class="relative" data-desktop-dropdown>
+            <a
+              href={servicesItem.href}
+              class:list={[
+                'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                isActive(servicesItem.href)
+                  ? 'text-accent'
+                  : 'text-white hover:text-accent',
+              ]}
+              aria-current={isActive(servicesItem.href) ? 'page' : undefined}
+              aria-haspopup="true"
+              data-desktop-trigger
+            >
+              <span>{servicesItem.label}</span>
+              <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path
+                  fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </a>
+
+            <div
+              class="pointer-events-none invisible absolute left-1/2 top-full z-50 mt-4 w-[min(92vw,54rem)] -translate-x-1/2 translate-y-2 opacity-0 transition duration-200"
+              data-desktop-panel
+            >
+              <div class="overflow-hidden rounded-[1.75rem] border border-white/10 bg-primary p-5 shadow-[0_28px_80px_-32px_rgba(0,0,0,0.82)] ring-1 ring-accent/15">
+                <div class="mb-4 flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+                  <div>
+                    <p class="text-xs font-semibold tracking-[0.28em] text-accent/80 uppercase">Áreas de práctica</p>
+                    <p class="mt-1 font-serif text-xl text-white">Defensa y acompañamiento jurídico integral</p>
+                  </div>
+                  <a
+                    href={servicesItem.href}
+                    class="rounded-full border border-accent/30 px-4 py-2 text-xs font-semibold tracking-[0.24em] text-accent uppercase transition hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+                  >
+                    Ver todo
+                  </a>
+                </div>
+
+                <div class="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+                  {servicesColumns.map((column) => (
+                    <ul class="space-y-2">
+                      {column.map((service) => (
+                        <li>
+                          <a
+                            href={service.href}
+                            class:list={[
+                              'block rounded-2xl border px-4 py-3 text-sm leading-relaxed transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                              isActive(service.href)
+                                ? 'border-accent/40 bg-accent/10 text-accent'
+                                : 'border-white/10 bg-white/[0.04] text-white hover:border-accent/30 hover:bg-white/[0.09] hover:text-accent',
+                            ]}
+                          >
+                            {service.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </li>
+        )}
+
+        {primaryItems.slice(2).map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'rounded-full px-4 py-2 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                isActive(item.href)
+                  ? 'text-accent'
+                  : 'text-white hover:text-accent',
+              ]}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <div class="rounded-full border border-white/10 bg-white/5 p-1.5">
+          <ThemeToggle />
+        </div>
+
+        <a
+          href={siteConfig.whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-[color:var(--color-success)] px-5 py-3 text-sm font-semibold text-white shadow-[0_16px_32px_-20px_rgba(16,185,129,0.95)] transition duration-300 hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M19.05 4.91A9.82 9.82 0 0 0 12.03 2a9.96 9.96 0 0 0-8.7 14.82L2 22l5.35-1.4A9.97 9.97 0 0 0 12.02 22c5.5 0 9.98-4.48 9.98-9.99a9.93 9.93 0 0 0-2.95-7.1ZM12.02 20.3a8.26 8.26 0 0 1-4.2-1.15l-.3-.18-3.18.84.85-3.1-.2-.32a8.29 8.29 0 1 1 7.03 3.91Zm4.54-6.17c-.25-.13-1.47-.72-1.7-.8-.23-.09-.4-.13-.56.12-.17.25-.64.8-.79.97-.15.17-.3.19-.56.06-.25-.13-1.08-.4-2.05-1.29-.76-.67-1.27-1.5-1.42-1.76-.15-.25-.02-.39.11-.52.12-.12.25-.3.37-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.07-.12-.57-1.37-.78-1.88-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.45.06-.68.32-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.02 2.61.13.17 1.77 2.7 4.28 3.78.6.26 1.08.42 1.45.54.61.19 1.16.16 1.6.1.49-.08 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.29Z"></path>
+          </svg>
+          <span>Escríbanos</span>
+        </a>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition duration-300 hover:border-accent/50 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Abrir menú de navegación"
+      data-mobile-toggle
+    >
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" data-menu-open-icon>
+        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+      <svg class="hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" data-menu-close-icon>
+        <path stroke-linecap="round" d="M6 6l12 12M18 6 6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="max-h-0 overflow-hidden border-t border-transparent opacity-0 transition-all duration-300 ease-out md:hidden"
+    data-mobile-menu
+  >
+    <div class="space-y-3 px-4 pb-5 pt-4">
+      <div class="rounded-[1.75rem] border border-white/10 bg-white/5 p-3 shadow-[0_18px_44px_-30px_rgba(0,0,0,0.65)]">
+        <ul class="space-y-1.5">
+          {primaryItems.slice(0, 2).map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'block rounded-2xl px-4 py-3 text-sm font-medium transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                  isActive(item.href)
+                    ? 'bg-accent/10 text-accent'
+                    : 'text-white hover:bg-white/10 hover:text-accent',
+                ]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                data-nav-close
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+
+          {servicesItem && (
+            <li class="rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-1.5">
+              <div class="flex items-center gap-2">
+                <a
+                  href={servicesItem.href}
+                  class:list={[
+                    'min-w-0 flex-1 rounded-xl px-3 py-3 text-sm font-medium transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                    isActive(servicesItem.href)
+                      ? 'text-accent'
+                      : 'text-white hover:text-accent',
+                  ]}
+                  aria-current={isActive(servicesItem.href) ? 'page' : undefined}
+                  data-nav-close
+                >
+                  {servicesItem.label}
+                </a>
+                <button
+                  type="button"
+                  class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 text-white transition duration-300 hover:border-accent/40 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+                  aria-expanded="false"
+                  aria-controls="mobile-services-menu"
+                  aria-label="Mostrar submenú de servicios"
+                  data-mobile-services-toggle
+                >
+                  <svg class="h-4 w-4 transition duration-300" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-mobile-services-icon>
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.938a.75.75 0 1 1 1.08 1.04l-4.25 4.5a.75.75 0 0 1-1.08 0l-4.25-4.5a.75.75 0 0 1 .02-1.06Z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+
+              <div id="mobile-services-menu" class="max-h-0 overflow-hidden opacity-0 transition-all duration-300 ease-out" data-mobile-services-panel>
+                <ul class="grid gap-2 px-1 pb-1 pt-2">
+                  {servicesItem.children?.map((service) => (
+                    <li>
+                      <a
+                        href={service.href}
+                        class:list={[
+                          'block rounded-xl border px-3 py-3 text-sm leading-relaxed transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                          isActive(service.href)
+                            ? 'border-accent/40 bg-accent/10 text-accent'
+                            : 'border-white/10 bg-white/[0.03] text-white hover:border-accent/30 hover:text-accent',
+                        ]}
+                        data-nav-close
+                      >
+                        {service.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          )}
+
+          {primaryItems.slice(2).map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'block rounded-2xl px-4 py-3 text-sm font-medium transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
+                  isActive(item.href)
+                    ? 'bg-accent/10 text-accent'
+                    : 'text-white hover:bg-white/10 hover:text-accent',
+                ]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                data-nav-close
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="flex items-center justify-between gap-3 rounded-[1.5rem] border border-white/10 bg-white/5 p-3">
+        <div class="rounded-full border border-white/10 bg-white/5 p-1.5">
+          <ThemeToggle />
+        </div>
+
+        <a
+          href={siteConfig.whatsappUrl}
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-[color:var(--color-success)] px-4 py-3 text-sm font-semibold text-white shadow-[0_16px_32px_-20px_rgba(16,185,129,0.95)] transition duration-300 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
+          data-nav-close
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M19.05 4.91A9.82 9.82 0 0 0 12.03 2a9.96 9.96 0 0 0-8.7 14.82L2 22l5.35-1.4A9.97 9.97 0 0 0 12.02 22c5.5 0 9.98-4.48 9.98-9.99a9.93 9.93 0 0 0-2.95-7.1ZM12.02 20.3a8.26 8.26 0 0 1-4.2-1.15l-.3-.18-3.18.84.85-3.1-.2-.32a8.29 8.29 0 1 1 7.03 3.91Zm4.54-6.17c-.25-.13-1.47-.72-1.7-.8-.23-.09-.4-.13-.56.12-.17.25-.64.8-.79.97-.15.17-.3.19-.56.06-.25-.13-1.08-.4-2.05-1.29-.76-.67-1.27-1.5-1.42-1.76-.15-.25-.02-.39.11-.52.12-.12.25-.3.37-.45.13-.15.17-.25.25-.42.08-.17.04-.32-.02-.45-.07-.12-.57-1.37-.78-1.88-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.45.06-.68.32-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.02 2.61.13.17 1.77 2.7 4.28 3.78.6.26 1.08.42 1.45.54.61.19 1.16.16 1.6.1.49-.08 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.29Z"></path>
+          </svg>
+          <span>Escríbanos</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const setupNavbar = () => {
+    document.querySelectorAll('[data-navbar-root]').forEach((root) => {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.dataset.navbarReady === 'true') return;
+      root.dataset.navbarReady = 'true';
+
+      const mobileToggle = root.querySelector('[data-mobile-toggle]');
+      const mobileMenu = root.querySelector('[data-mobile-menu]');
+      const mobileOpenIcon = root.querySelector('[data-menu-open-icon]');
+      const mobileCloseIcon = root.querySelector('[data-menu-close-icon]');
+      const mobileServicesToggle = root.querySelector('[data-mobile-services-toggle]');
+      const mobileServicesPanel = root.querySelector('[data-mobile-services-panel]');
+      const mobileServicesIcon = root.querySelector('[data-mobile-services-icon]');
+      const desktopDropdown = root.querySelector('[data-desktop-dropdown]');
+      const desktopTrigger = root.querySelector('[data-desktop-trigger]');
+      const desktopPanel = root.querySelector('[data-desktop-panel]');
+      let closeTimer;
+
+      const openMobileMenu = () => {
+        if (!mobileToggle || !mobileMenu) return;
+        mobileToggle.setAttribute('aria-expanded', 'true');
+        mobileToggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+        mobileMenu.classList.remove('max-h-0', 'opacity-0', 'border-transparent');
+        mobileMenu.classList.add('max-h-[85vh]', 'opacity-100', 'border-white/10');
+        mobileOpenIcon?.classList.add('hidden');
+        mobileCloseIcon?.classList.remove('hidden');
+      };
+
+      const closeMobileServices = () => {
+        if (!mobileServicesToggle || !mobileServicesPanel) return;
+        mobileServicesToggle.setAttribute('aria-expanded', 'false');
+        mobileServicesPanel.classList.remove('max-h-[60vh]', 'opacity-100');
+        mobileServicesPanel.classList.add('max-h-0', 'opacity-0');
+        mobileServicesIcon?.classList.remove('rotate-180');
+      };
+
+      const closeMobileMenu = () => {
+        if (!mobileToggle || !mobileMenu) return;
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.setAttribute('aria-label', 'Abrir menú de navegación');
+        mobileMenu.classList.remove('max-h-[85vh]', 'opacity-100', 'border-white/10');
+        mobileMenu.classList.add('max-h-0', 'opacity-0', 'border-transparent');
+        mobileOpenIcon?.classList.remove('hidden');
+        mobileCloseIcon?.classList.add('hidden');
+        closeMobileServices();
+      };
+
+      const toggleMobileMenu = () => {
+        const isExpanded = mobileToggle?.getAttribute('aria-expanded') === 'true';
+        if (isExpanded) {
+          closeMobileMenu();
+          return;
+        }
+        openMobileMenu();
+      };
+
+      const toggleMobileServices = () => {
+        if (!mobileServicesToggle || !mobileServicesPanel) return;
+        const isExpanded = mobileServicesToggle.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          closeMobileServices();
+          return;
+        }
+
+        mobileServicesToggle.setAttribute('aria-expanded', 'true');
+        mobileServicesPanel.classList.remove('max-h-0', 'opacity-0');
+        mobileServicesPanel.classList.add('max-h-[60vh]', 'opacity-100');
+        mobileServicesIcon?.classList.add('rotate-180');
+      };
+
+      const openDesktopDropdown = () => {
+        if (!desktopPanel) return;
+        window.clearTimeout(closeTimer);
+        desktopPanel.classList.remove('pointer-events-none', 'invisible', 'translate-y-2', 'opacity-0');
+        desktopPanel.classList.add('pointer-events-auto', 'visible', 'translate-y-0', 'opacity-100');
+      };
+
+      const closeDesktopDropdown = () => {
+        if (!desktopPanel) return;
+        desktopPanel.classList.remove('pointer-events-auto', 'visible', 'translate-y-0', 'opacity-100');
+        desktopPanel.classList.add('pointer-events-none', 'invisible', 'translate-y-2', 'opacity-0');
+      };
+
+      const scheduleDesktopClose = () => {
+        window.clearTimeout(closeTimer);
+        closeTimer = window.setTimeout(() => {
+          closeDesktopDropdown();
+        }, 120);
+      };
+
+      mobileToggle?.addEventListener('click', toggleMobileMenu);
+      mobileServicesToggle?.addEventListener('click', toggleMobileServices);
+
+      root.querySelectorAll('[data-nav-close]').forEach((link) => {
+        link.addEventListener('click', () => {
+          closeMobileMenu();
+          closeDesktopDropdown();
+        });
+      });
+
+      desktopDropdown?.addEventListener('mouseenter', openDesktopDropdown);
+      desktopDropdown?.addEventListener('mouseleave', scheduleDesktopClose);
+      desktopDropdown?.addEventListener('focusin', openDesktopDropdown);
+      desktopDropdown?.addEventListener('focusout', (event) => {
+        const nextTarget = event.relatedTarget;
+        if (nextTarget instanceof Node && desktopDropdown.contains(nextTarget)) return;
+        scheduleDesktopClose();
+      });
+
+      desktopPanel?.addEventListener('mouseenter', openDesktopDropdown);
+      desktopPanel?.addEventListener('mouseleave', scheduleDesktopClose);
+
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        if (!root.contains(target)) {
+          closeMobileMenu();
+          closeDesktopDropdown();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        closeMobileMenu();
+        closeDesktopDropdown();
+        if (desktopTrigger instanceof HTMLElement) {
+          desktopTrigger.focus();
+        }
+      });
+    });
+  };
+
+  setupNavbar();
+
+  if (document.documentElement.dataset.navbarPageLoadBound !== 'true') {
+    document.addEventListener('astro:page-load', setupNavbar);
+    document.documentElement.dataset.navbarPageLoadBound = 'true';
+  }
+</script>

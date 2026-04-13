@@ -1,0 +1,22 @@
+---
+interface Props {
+  name: string;
+  caseType: string;
+  quote: string;
+}
+
+const { name, caseType, quote }: Props = Astro.props;
+---
+
+<article data-reveal class="rounded-xl border border-border border-l-4 border-l-accent bg-card p-6">
+  <div class="font-serif text-5xl leading-none text-accent/30" aria-hidden="true">“</div>
+
+  <blockquote class="mt-3 italic leading-7 text-foreground">
+    {quote}
+  </blockquote>
+
+  <div class="mt-6 border-t border-border pt-4">
+    <p class="font-serif text-lg font-bold text-foreground">{name}</p>
+    <p class="mt-1 text-sm text-muted-foreground">{caseType}</p>
+  </div>
+</article>

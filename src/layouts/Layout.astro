@@ -1,0 +1,67 @@
+---
+import { ClientRouter as ViewTransitions } from 'astro:transitions';
+import Footer from '../components/Footer.astro';
+import Navbar from '../components/Navbar.astro';
+import SEOSchema from '../components/SEOSchema.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'Consorcio Jurídico HP — Abogados Asociados. Asesoría y patrocinio legal en Quito, Ecuador.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | Consorcio Jurídico HP</title>
+    <meta name="description" content={description} />
+    <script is:inline>
+      if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <ViewTransitions />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={Astro.url.href} />
+    <SEOSchema />
+  </head>
+  <body class="bg-background text-foreground min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+
+    <script is:inline>
+      function initReveal() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('[data-reveal]:not(.revealed)').forEach((el) => observer.observe(el));
+      }
+
+      document.addEventListener('DOMContentLoaded', initReveal);
+      document.addEventListener('astro:page-load', initReveal);
+    </script>
+  </body>
+</html>

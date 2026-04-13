@@ -1,0 +1,200 @@
+---
+import type { GetStaticPaths } from 'astro';
+import CTABanner from '../../components/CTABanner.astro';
+import { services, type Service } from '../../data/services';
+import { siteConfig } from '../../data/siteConfig';
+import Layout from '../../layouts/Layout.astro';
+
+export const getStaticPaths = (() => {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  service: Service;
+}
+
+const { service }: Props = Astro.props;
+
+const translatedLongDescriptions: Record<Service['slug'], string> = {
+  'derecho-penal':
+    'Esta materia se rige principalmente por el COIP, cuerpo normativo que unificó el derecho penal sustantivo, el procedimiento penal y la normativa penitenciaria en un solo código. En Ecuador, un proceso penal suele desarrollarse en las fases de investigación previa, instrucción fiscal, audiencia de evaluación y preparatoria de juicio, y juicio, con un sistema predominantemente oral mediante audiencias. La Fiscalía General del Estado dirige la investigación de los presuntos delitos y ejerce de forma exclusiva la acción penal pública. Entre los asuntos más frecuentes están los robos, las estafas, la violencia intrafamiliar, los delitos relacionados con sustancias sujetas a fiscalización y las investigaciones por delincuencia organizada. La defensa técnica interviene ante Unidades Judiciales Penales y Tribunales de Garantías Penales, asegurando el respeto al debido proceso y a las garantías constitucionales. La actual situación de seguridad en el país ha incrementado de manera significativa la necesidad de una defensa penal oportuna y estratégica.',
+  'derecho-familia':
+    'Es una de las áreas de mayor demanda en el país. En Ecuador se tramitan más de 17.000 divorcios al año, lo que refleja la alta necesidad de acompañamiento jurídico en conflictos familiares. La normativa aplicable incluye principalmente el Código Civil, el Código de la Niñez y Adolescencia y el COGEP, especialmente a través del procedimiento sumario. Cuando existe divorcio por mutuo consentimiento y no hay hijos menores de edad ni dependientes, el trámite puede realizarse ante notaría sin necesidad de proceso judicial. En los divorcios controvertidos sí es necesario acreditar causales legales, como abandono por más de seis meses, violencia o adulterio. En materia de pensiones alimenticias, los valores se calculan conforme a la tabla oficial emitida por el Consejo de la Judicatura, tomando en cuenta ingresos, número de hijos y edades; una gran parte de las pensiones fijadas se ubican por debajo de USD 125 mensuales. El incumplimiento puede generar apremio personal. Estos asuntos se conocen en las Unidades Judiciales de Familia, Mujer, Niñez y Adolescencia, y los pagos suelen administrarse mediante el SUPA, Sistema Único de Pensiones Alimenticias.',
+  'derecho-laboral':
+    'El Derecho Laboral y de Seguridad Social en Ecuador se rige, principalmente, por el Código del Trabajo para el sector privado y por la LOSEP para el sector público. La mayoría de reclamaciones judiciales se sustancian mediante procedimiento sumario, con audiencia única. Uno de los conflictos más habituales es el despido intempestivo, cuya indemnización puede equivaler hasta a tres remuneraciones cuando el trabajador tiene menos de tres años de servicio, o a una remuneración por cada año trabajado cuando supera ese tiempo, con el límite legal correspondiente. También son frecuentes los trámites de visto bueno ante el Inspector del Trabajo y los casos de despido ineficaz, aplicables a personas con estabilidad reforzada, como mujeres embarazadas, dirigentes sindicales o personas con discapacidad. Además, se reclaman derechos como décimo tercer sueldo, décimo cuarto sueldo, utilidades, vacaciones, afiliación y prestaciones ante el IESS. El Ministerio de Trabajo y el Instituto Ecuatoriano de Seguridad Social son instituciones clave en esta materia y exigen una estrategia técnica tanto para prevenir contingencias como para litigar oportunamente.',
+  'derecho-civil':
+    'El Derecho Civil abarca relaciones entre particulares vinculadas con contratos, obligaciones, propiedad, responsabilidad civil e incluso sucesiones. El Código Civil ecuatoriano organiza esta materia en cuatro libros, referidos a personas, bienes, sucesiones y obligaciones o contratos. Bajo el COGEP, los conflictos civiles de mayor complejidad suelen sustanciarse por procedimiento ordinario, con audiencia preliminar y audiencia de juicio, mientras que los asuntos de menor complejidad se ventilan por procedimiento sumario. Entre los casos más comunes se encuentran el incumplimiento contractual, las compraventas de inmuebles, los conflictos arrendaticios bajo la Ley de Inquilinato, los procesos sucesorios como posesión efectiva y partición de bienes, así como acciones de prescripción. Muchas gestiones no contenciosas pueden resolverse en notarías, mientras que el Registro de la Propiedad y el Registro Mercantil cumplen un papel esencial cuando existen actos o derechos que deben inscribirse para producir efectos frente a terceros.',
+  'derecho-transito':
+    'El Derecho de Tránsito tiene una relevancia especial en Ecuador por la frecuencia de accidentes y controversias derivadas de la circulación vehicular. Desde 2014, las contravenciones y delitos de tránsito se encuentran tipificados dentro del COIP, especialmente entre los artículos 371 y 392. Las contravenciones de tránsito son conocidas por jueces de contravenciones mediante audiencias orales, mientras que los delitos de tránsito con resultado de muerte o lesiones graves siguen el procedimiento penal completo. La ANT, Agencia Nacional de Tránsito, regula licencias, títulos habilitantes y varios aspectos administrativos del sistema; por su parte, el SIAT, Sistema de Investigación de Accidentes de Tránsito, interviene en la investigación técnica de siniestros. También es relevante el SPPAT, Sistema Público para Pago de Accidentes de Tránsito, como mecanismo obligatorio de cobertura. Son particularmente frecuentes los casos de conducción en estado etílico, impugnación de citaciones, reclamos por daños materiales y controversias relacionadas con puntos en la licencia o responsabilidades civiles y penales derivadas de accidentes.',
+  'derecho-administrativo':
+    'El Derecho Administrativo regula las controversias entre los ciudadanos y la administración pública. En Ecuador, el COA, Código Orgánico Administrativo, vigente desde 2017, estableció un marco general para los procedimientos administrativos y la actuación de los órganos del Estado. Las demandas contencioso-administrativas se tramitan, por regla general, mediante procedimiento ordinario conforme al COGEP ante los Tribunales de lo Contencioso Administrativo. Entre las acciones más relevantes se encuentran el recurso subjetivo, orientado a la protección de derechos subjetivos afectados por actos administrativos; el recurso objetivo, que busca la nulidad de actos ilegales; y las impugnaciones relacionadas con el silencio administrativo. Instituciones como la Procuraduría General del Estado, la Contraloría General del Estado y el SERCOP son especialmente importantes cuando existen reclamaciones sobre contratación pública, sanciones, responsabilidad administrativa o actuaciones arbitrarias de la administración. Una defensa adecuada exige conocimiento técnico del trámite previo y de la estrategia procesal posterior.',
+  'derecho-societario':
+    'El Derecho Societario y Empresarial se encuentra regulado principalmente por la Ley de Compañías, norma que tuvo reformas importantes en marzo de 2023 para simplificar la constitución y reorganización de negocios en Ecuador. Actualmente, compañías como la Cía. Ltda. y la S.A. pueden constituirse mediante documento privado en varios supuestos, sin requerir necesariamente escritura pública. La Superintendencia de Compañías, Valores y Seguros es el principal órgano de control y supervisión. Dentro de esta materia son habituales la constitución de compañías, incluyendo la SAS, Sociedad por Acciones Simplificada, las reformas estatutarias, aumentos de capital, fusiones, disoluciones, conflictos entre socios, elaboración de actas, nombramientos y cumplimiento regulatorio. El SRI interviene en el registro tributario y otras obligaciones fiscales. En una plaza empresarial como Quito, esta asesoría resulta indispensable para que los negocios operen con orden, respaldo documental y seguridad jurídica.',
+  'contratos-asesoria':
+    'La asesoría contractual preventiva permite estructurar relaciones jurídicas claras antes de que surjan conflictos. En esta área se revisan y redactan contratos civiles, mercantiles, laborales y de prestación de servicios, atendiendo a las reglas del Código Civil, la normativa comercial aplicable y, según el caso, disposiciones especiales del COGEP para una eventual ejecución judicial. El análisis preventivo incluye definición precisa de obligaciones, causales de terminación, penalidades, mecanismos de solución de controversias, garantías y distribución de riesgos entre las partes. En la práctica ecuatoriana, es frecuente revisar contratos de compraventa, arrendamiento, suministro, prestación de servicios profesionales, acuerdos societarios y convenios empresariales. Una redacción adecuada reduce contingencias, facilita la prueba en caso de incumplimiento y permite activar con mayor eficacia procedimientos como el ejecutivo o el monitorio cuando corresponde. También es habitual coordinar actuaciones con notarías, el Registro de la Propiedad o el Registro Mercantil cuando el contrato requiere formalidades o inscripción.',
+  'cobranzas-judiciales':
+    'La recuperación de cartera ha cobrado gran importancia en el país y fue profundamente dinamizada por el COGEP. Existen dos vías especialmente relevantes. La primera es el procedimiento ejecutivo, aplicable cuando la obligación consta en un título ejecutivo, como pagarés, letras de cambio, cheques protestados o sentencias ejecutoriadas; este trámite contempla dos audiencias y permite impulsar el cobro con base en un documento que presta mérito ejecutivo. La segunda es el procedimiento monitorio, una de las innovaciones del COGEP, útil para deudas de hasta 50 SBU cuando no se cuenta con título ejecutivo formal. Si el deudor no comparece o no formula oposición oportuna, el juez puede pasar directamente a la fase de ejecución. Durante el cobro judicial pueden solicitarse medidas como embargo, retención de fondos o prohibición de enajenar bienes. Una estrategia eficaz combina gestión extrajudicial, análisis de solvencia y activación oportuna de los mecanismos procesales adecuados.',
+  'inquilinato-inmuebles':
+    'Esta materia comprende operaciones y conflictos vinculados con bienes inmuebles, tales como arrendamientos, compraventas, hipotecas, régimen de propiedad horizontal, servidumbres y disputas derivadas de construcción o posesión. En Ecuador, toda compraventa de inmuebles debe formalizarse mediante escritura pública e inscribirse en el Registro de la Propiedad para que produzca plenos efectos frente a terceros. Los conflictos de arrendamiento, incluida la restitución del bien por falta de pago u otras causales, suelen tramitarse por procedimiento sumario. También son frecuentes las acciones de prescripción adquisitiva de dominio o usucapión, cuando una persona ha poseído un inmueble por el tiempo y bajo las condiciones previstas por la ley. El análisis legal en esta área exige revisar títulos, cargas, gravámenes, antecedentes registrales y la situación material del bien, para proteger adecuadamente a arrendadores, arrendatarios, compradores o poseedores.',
+  'asuntos-notariales':
+    'Los asuntos notariales y registrales permiten dar forma, validez y seguridad jurídica a múltiples actos de la vida civil y patrimonial. En esta área se tramitan poderes, declaraciones juramentadas, reconocimientos de firma, autorizaciones, compraventas, posesiones efectivas, actas, protocolizaciones y otros actos no contenciosos que pueden resolverse sin proceso judicial. El marco jurídico se relaciona con el Código Civil, la Ley Notarial, las reglas de registro y, cuando corresponde, el COGEP respecto de determinados efectos procesales posteriores. Las notarías cumplen un papel esencial en la formalización de actos y documentos, mientras que el Registro de la Propiedad y el Registro Mercantil permiten su publicidad e inscripción cuando la naturaleza del acto lo exige. Una adecuada revisión previa evita nulidades, observaciones o retrasos y garantiza que el trámite notarial o registral produzca los efectos legales esperados con claridad y seguridad para las partes involucradas.',
+  'asesoria-empresarial':
+    'La asesoría empresarial integral combina distintas ramas del Derecho para acompañar de forma permanente el funcionamiento de un negocio. En Ecuador, buena parte de esta labor se articula alrededor de la Ley de Compañías, el Código del Trabajo, la normativa tributaria y las obligaciones administrativas aplicables a cada sector. Tras las reformas de marzo de 2023, la constitución y reorganización de compañías se ha simplificado en varios supuestos, lo que exige una revisión estratégica de la estructura societaria más conveniente, incluida la SAS, Sociedad por Acciones Simplificada. Además del soporte ante la Superintendencia de Compañías, Valores y Seguros, esta asesoría suele involucrar contratación mercantil, manejo de relaciones laborales, cumplimiento documental, prevención de riesgos regulatorios, recuperación de cartera y coordinación con el SRI en obligaciones tributarias. En un entorno comercial competitivo como el de Quito, contar con acompañamiento legal continuo permite anticipar problemas, ordenar procesos internos y tomar decisiones con mayor seguridad jurídica.',
+  'derecho-constitucional':
+    'La Constitución de 2008 consolidó en Ecuador un sistema amplio de protección de derechos y garantías jurisdiccionales. Cualquier juez con competencia constitucional puede conocer estas acciones, lo que permite una tutela rápida y efectiva frente a vulneraciones de derechos. Entre las herramientas principales se encuentran la Acción de Protección, prevista en el artículo 88 de la Constitución, para resguardar derechos constitucionales frente a actos u omisiones de autoridades públicas y, en ciertos casos, de particulares; el Hábeas Corpus, del artículo 89, orientado a la protección de la libertad; el Hábeas Data, del artículo 92, relacionado con el acceso, actualización y corrección de datos personales; y la Acción de Acceso a la Información Pública, del artículo 91. Estos procesos son de trámite sumario y oral, con audiencias que suelen convocarse dentro de 24 a 48 horas. La Corte Constitucional del Ecuador revisa y desarrolla la jurisprudencia aplicable, por lo que la estrategia debe construirse con atención al precedente constitucional y a la urgencia del caso concreto.',
+};
+
+const relatedServices = service.relatedSlugs
+  .map((slug) => services.find((item) => item.slug === slug))
+  .filter((item): item is Service => Boolean(item));
+
+const translatedLongDescription =
+  translatedLongDescriptions[service.slug] ?? service.longDescription;
+
+const whatsappServiceUrl = `https://wa.me/${siteConfig.phoneInternational.replace('+', '')}?text=${encodeURIComponent(`Hola, necesito ayuda con ${service.title}.`)}`;
+
+const iconMap: Record<string, string> = {
+  scale: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 3v16"/><path d="M6 7h12"/><path d="M4 7l-2 4a3 3 0 0 0 6 0L6 7Z"/><path d="M20 7l-2 4a3 3 0 0 0 6 0l-2-4Z"/><path d="M8 19h8"/><path d="M7 21h10"/></svg>`,
+  family: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><path d="M9.5 20v-4.5a2.5 2.5 0 0 1 5 0V20"/><path d="M8.5 10.5a1.5 1.5 0 1 0 0-.01"/><path d="M15.5 10.5a1.5 1.5 0 1 0 0-.01"/></svg>`,
+  briefcase: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M10 12v2"/><path d="M14 12v2"/></svg>`,
+  landmark: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M3 10h18"/><path d="M5 10v8"/><path d="M9 10v8"/><path d="M15 10v8"/><path d="M19 10v8"/><path d="M2 18h20"/><path d="M12 3 3 7v3h18V7l-9-4Z"/></svg>`,
+  car: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M5 16 6.5 10.5A2 2 0 0 1 8.4 9H15.6a2 2 0 0 1 1.9 1.5L19 16"/><path d="M4 16h16"/><path d="M5 16v3"/><path d="M19 16v3"/><circle cx="7.5" cy="16.5" r="1.5"/><circle cx="16.5" cy="16.5" r="1.5"/><path d="M8 9 9.5 6h5L16 9"/></svg>`,
+  building: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><rect x="4" y="3" width="12" height="18" rx="1.5"/><path d="M16 8h4v13h-4"/><path d="M8 7h2"/><path d="M8 11h2"/><path d="M8 15h2"/><path d="M12 7h2"/><path d="M12 11h2"/><path d="M12 15h2"/><path d="M9 21v-3h2v3"/></svg>`,
+  'briefcase-business': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><rect x="3" y="7" width="18" height="12" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/><path d="M8 16h8"/></svg>`,
+  'file-signature': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M8 3h7l4 4v14H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M15 3v5h5"/><path d="M8.5 12h7"/><path d="M8.5 16h4.5"/><path d="M8.5 9h3"/><path d="M15.5 14.5l1.5 1.5 3-3"/></svg>`,
+  wallet: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v1H6.5A2.5 2.5 0 0 0 4 10.5v7A2.5 2.5 0 0 0 6.5 20H20a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2H6.5"/><path d="M16 14h.01"/></svg>`,
+  house: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><path d="M9 20v-5h6v5"/></svg>`,
+  stamp: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M9 13a3 3 0 1 1 6 0c0 1 .35 1.82 1 2.5l1 1V18H7v-1.5l1-1c.65-.68 1-1.5 1-2.5Z"/><path d="M6 21h12"/><path d="M8 18h8"/><path d="M10 6V4h4v2"/></svg>`,
+  'shield-check': `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 3 5 6v5c0 4.4 2.9 8.5 7 10 4.1-1.5 7-5.6 7-10V6l-7-3Z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/></svg>`,
+  shield: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8"><path d="M12 3 5 6v5c0 4.4 2.9 8.5 7 10 4.1-1.5 7-5.6 7-10V6l-7-3Z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/></svg>`,
+};
+
+const iconMarkup = iconMap[service.icon] ?? iconMap.shield;
+---
+
+<Layout title={service.title} description={service.shortDescription}>
+  <section class="bg-card py-4 text-sm text-muted-foreground">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-6" data-reveal>
+      <a href="/" class="transition-colors hover:text-accent">Inicio</a>
+      <span aria-hidden="true">&gt;</span>
+      <a href="/servicios" class="transition-colors hover:text-accent">Servicios</a>
+      <span aria-hidden="true">&gt;</span>
+      <span class="font-medium text-foreground">{service.title}</span>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="max-w-4xl" data-reveal>
+        <div class="inline-flex h-20 w-20 items-center justify-center rounded-3xl border border-accent/20 bg-accent/10 text-accent shadow-lg shadow-accent/10">
+          <Fragment set:html={iconMarkup} />
+        </div>
+        <p class="mt-8 text-sm font-semibold uppercase tracking-[0.32em] text-accent">
+          Área de práctica
+        </p>
+        <h1 class="mt-4 text-3xl font-serif font-bold md:text-4xl">{service.title}</h1>
+        <p class="mt-5 max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">
+          {service.shortDescription}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-3 lg:items-start">
+      <article class="lg:col-span-2" data-reveal>
+        <div class="rounded-[2rem] border border-border bg-card/70 p-8 shadow-sm backdrop-blur-sm md:p-10">
+          <p class="text-sm font-semibold uppercase tracking-[0.32em] text-accent">
+            En qué podemos ayudarle
+          </p>
+          <div class="mt-6 space-y-5 text-base leading-8 text-muted-foreground">
+            {translatedLongDescription.split(/\n+/).map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+        </div>
+      </article>
+
+      <aside class="space-y-6" data-reveal>
+        <div class="rounded-[2rem] border border-border bg-card p-6 shadow-sm">
+          <h2 class="text-2xl font-serif font-bold text-foreground">Servicios Relacionados</h2>
+          <div class="mt-6 space-y-4">
+            {relatedServices.map((related) => (
+              <a
+                href={`/servicios/${related.slug}`}
+                class="group block rounded-2xl border border-border/80 bg-background px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+              >
+                <p class="font-serif text-lg font-bold text-foreground transition-colors group-hover:text-accent">
+                  {related.title}
+                </p>
+                <p class="mt-2 text-sm font-medium text-accent">
+                  Conocer servicio <span aria-hidden="true">→</span>
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-accent/20 bg-primary p-6 text-primary-foreground shadow-lg shadow-primary/10">
+          <p class="text-sm font-semibold uppercase tracking-[0.32em] text-accent">
+            Atención directa
+          </p>
+          <h2 class="mt-4 text-2xl font-serif font-bold">
+            ¿Necesita ayuda con {service.title}?
+          </h2>
+          <p class="mt-4 text-sm leading-7 text-primary-foreground/80">
+            Nuestro equipo puede orientarle con seriedad, rapidez y una estrategia legal ajustada a su caso.
+          </p>
+
+          <div class="mt-6 flex flex-col gap-3">
+            <a
+              href={whatsappServiceUrl}
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center justify-center gap-3 rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-emerald-400"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-5 w-5"
+                aria-hidden="true"
+              >
+                <path d="M20 11.5A8.5 8.5 0 0 1 7.4 19l-3.4 1 1.1-3.2A8.5 8.5 0 1 1 20 11.5Z"></path>
+                <path d="M9.2 8.8c.2-.5.4-.5.7-.5h.6c.2 0 .5 0 .7.5l.5 1.3c.1.3 0 .6-.2.8l-.5.6c-.2.2-.2.4-.1.6.4.7 1 1.3 1.7 1.8.2.1.5.1.6-.1l.6-.5c.2-.2.5-.3.8-.2l1.3.5c.5.2.5.5.5.7v.6c0 .3 0 .5-.5.7-.5.2-1.6.4-3-.2a9.3 9.3 0 0 1-4.2-4.2c-.6-1.4-.4-2.5-.2-3Z"></path>
+              </svg>
+              Escribir por WhatsApp
+            </a>
+
+            <a
+              href={`tel:${siteConfig.phoneInternational}`}
+              class="inline-flex items-center justify-center gap-3 rounded-full bg-white/12 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/18"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-5 w-5"
+                aria-hidden="true"
+              >
+                <path d="M5 4h4l2 5-2.5 1.5a16.3 16.3 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 3 6.2 2 2 0 0 1 5 4Z"></path>
+              </svg>
+              Llamar ahora
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <CTABanner />
+</Layout>
