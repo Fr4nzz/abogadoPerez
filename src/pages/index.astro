@@ -1,12 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import CTABanner from '../components/CTABanner.astro';
-import CounterBlock from '../components/CounterBlock.astro';
 import ServiceCard from '../components/ServiceCard.astro';
-import TestimonialCard from '../components/TestimonialCard.astro';
 import { services } from '../data/services';
 import { siteConfig } from '../data/siteConfig';
-import { testimonials } from '../data/testimonials';
 
 const featuredServices = services.slice(0, 6);
 const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
@@ -92,11 +89,21 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
 
   <section data-reveal class="bg-card py-16">
     <div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
-      <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-        <CounterBlock target={15} suffix="+" label="Años de Experiencia" />
-        <CounterBlock target={500} suffix="+" label="Casos Atendidos" />
-        <CounterBlock target={98} suffix="%" label="Clientes Satisfechos" />
-        <CounterBlock target={13} label="Áreas de Práctica" />
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div class="text-center p-6 rounded-xl border border-border bg-background">
+          <p class="text-4xl md:text-5xl font-bold text-primary dark:text-accent font-serif">13</p>
+          <p class="text-muted-foreground text-sm mt-2 uppercase tracking-wider">Áreas de Práctica</p>
+        </div>
+        <div class="text-center p-6 rounded-xl border border-dashed border-accent/40 bg-accent/5">
+          <p class="text-lg font-semibold text-accent font-serif">[POR CONFIRMAR]</p>
+          <p class="text-muted-foreground text-sm mt-2 uppercase tracking-wider">Años de Experiencia</p>
+          <p class="text-xs text-muted-foreground mt-1 italic">Dato pendiente del abogado</p>
+        </div>
+        <div class="text-center p-6 rounded-xl border border-dashed border-accent/40 bg-accent/5">
+          <p class="text-lg font-semibold text-accent font-serif">[POR CONFIRMAR]</p>
+          <p class="text-muted-foreground text-sm mt-2 uppercase tracking-wider">Casos Atendidos</p>
+          <p class="text-xs text-muted-foreground mt-1 italic">Dato pendiente del abogado</p>
+        </div>
       </div>
     </div>
   </section>
@@ -167,18 +174,14 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
         </h2>
       </div>
 
-      <div class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
-        {
-          testimonials.map((testimonial) => (
-            <div data-reveal>
-              <TestimonialCard
-                name={testimonial.name}
-                caseType={testimonial.caseType}
-                quote={testimonial.quote}
-              />
-            </div>
-          ))
-        }
+      <div class="mt-12 mx-auto max-w-2xl rounded-xl border border-dashed border-accent/40 bg-accent/5 p-8 text-center">
+        <p class="text-lg font-semibold text-foreground">Sección de testimonios</p>
+        <p class="mt-2 text-muted-foreground">
+          Aquí se mostrarán testimonios reales de clientes una vez que el abogado los proporcione.
+        </p>
+        <p class="mt-4 text-xs text-muted-foreground italic">
+          Se recomienda incluir 3-4 testimonios con nombre (o iniciales), tipo de caso y una breve opinión del servicio recibido.
+        </p>
       </div>
     </div>
   </section>
