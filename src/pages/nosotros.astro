@@ -146,20 +146,17 @@ const values = [
   <section class="py-16">
     <div class="mx-auto max-w-6xl px-6">
       <div data-reveal class="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_30px_90px_-50px_rgba(15,23,42,0.65)]">
-        <div class="grid gap-0 lg:grid-cols-[340px_minmax(0,1fr)]">
-          <div class="flex min-h-[340px] items-center justify-center bg-primary p-10 text-primary-foreground">
-            <div class="relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/15 bg-white/5">
-              <img
-                src={url('/foto-oficina.jpg')}
-                alt={`Fotografía de ${leadLawyer.name}`}
-                class="h-full min-h-[340px] w-full object-cover"
-                style="image-orientation: none;"
-                loading="eager"
-              />
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary via-primary/75 to-transparent p-6 text-left">
-                <p class="text-xs font-semibold uppercase tracking-[0.32em] text-accent/90">Director Jurídico</p>
-                <p class="mt-2 text-sm leading-7 text-primary-foreground/80">Atención profesional cercana, estratégica y personalizada desde Quito.</p>
-              </div>
+        <div class="grid gap-0 lg:grid-cols-[380px_minmax(0,1fr)]">
+          <div class="relative bg-primary lg:self-start">
+            <img
+              src={url('/foto-oficina.jpg')}
+              alt={`Fotografía de ${leadLawyer.name}`}
+              class="aspect-square w-full object-cover"
+              loading="eager"
+            />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary via-primary/75 to-transparent p-6 text-left">
+              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-accent/90">Director Jurídico</p>
+              <p class="mt-2 text-sm leading-7 text-primary-foreground/80">Atención cercana y personalizada desde Quito.</p>
             </div>
           </div>
 
