@@ -4,6 +4,8 @@ import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
 import SEOSchema from '../components/SEOSchema.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { siteConfig } from '../data/siteConfig';
+import { url } from '../utils/url';
 import '../styles/global.css';
 
 interface Props {
@@ -15,6 +17,8 @@ const {
   title,
   description = 'Consorcio Jurídico HP — Abogados Asociados. Asesoría y patrocinio legal en Quito, Ecuador.',
 } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site?.href ?? siteConfig.url).href;
 ---
 
 <!doctype html>
@@ -34,8 +38,8 @@ const {
       rel="stylesheet"
     />
     <ViewTransitions />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={Astro.url.href} />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="canonical" href={canonicalUrl} />
     <SEOSchema />
   </head>
   <body class="bg-background text-foreground min-h-screen flex flex-col">

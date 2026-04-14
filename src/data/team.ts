@@ -12,7 +12,7 @@ export const team: TeamMember[] = [
     title: 'Director Jurídico / Abogado Principal',
     specialization: '[INSERTAR ESPECIALIDAD PRINCIPAL]',
     bio: 'Abogado en libre ejercicio con experiencia en asesoría jurídica, patrocinio legal y atención personalizada de casos en distintas materias. Lidera el despacho con un enfoque de responsabilidad, claridad y compromiso con cada cliente.',
-    imageUrl: '/team/hector-perez-vilema.jpg',
+    imageUrl: '/foto-oficina.jpg',
   },
   {
     name: 'Ab. [NOMBRE DEL PROFESIONAL]',

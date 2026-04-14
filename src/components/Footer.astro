@@ -1,6 +1,7 @@
 ---
 import { navigation } from '../data/navigation';
 import { siteConfig } from '../data/siteConfig';
+import { url } from '../utils/url';
 
 const quickLinkHrefs = ['/', '/nosotros', '/servicios', '/preguntas-frecuentes', '/contacto'];
 const quickLinks = quickLinkHrefs.flatMap((href) => {
@@ -30,10 +31,11 @@ const currentYear = new Date().getFullYear();
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-4 xl:gap-12">
       <section class="space-y-5">
-        <a href="/" class="inline-flex items-center gap-4" aria-label={`Ir al inicio de ${siteConfig.shortName}`}>
+        <a href={url('/')} class="inline-flex items-center gap-4" aria-label={`Ir al inicio de ${siteConfig.shortName}`}>
           <img
-            src="/logo.png"
-            alt={`Logo de ${siteConfig.shortName}`}
+            src={url('/logo.png')}
+            alt=""
+            aria-hidden="true"
             class="h-12 w-12 rounded-full border border-white/15 bg-white/10 object-cover p-1 shadow-lg shadow-black/15"
             width="48"
             height="48"
@@ -68,7 +70,7 @@ const currentYear = new Date().getFullYear();
         <ul class="mt-5 space-y-3 text-sm">
           {quickLinks.map((link) => (
             <li>
-              <a href={link.href} class="text-white transition hover:text-accent">
+                <a href={url(link.href)} class="text-white transition hover:text-accent">
                 {link.label}
               </a>
             </li>
@@ -81,7 +83,7 @@ const currentYear = new Date().getFullYear();
         <ul class="mt-5 space-y-3 text-sm leading-6">
           {practiceLinks.map((service) => (
             <li>
-              <a href={service.href} class="text-white/88 transition hover:text-accent">
+                <a href={url(service.href)} class="text-white/88 transition hover:text-accent">
                 {service.label}
               </a>
             </li>
@@ -89,7 +91,7 @@ const currentYear = new Date().getFullYear();
         </ul>
 
         <a
-          href="/servicios"
+          href={url('/servicios')}
           class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent transition hover:text-white"
         >
           <span>Ver todos</span>

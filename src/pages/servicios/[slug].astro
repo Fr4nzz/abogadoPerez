@@ -4,6 +4,7 @@ import CTABanner from '../../components/CTABanner.astro';
 import { services, type Service } from '../../data/services';
 import { siteConfig } from '../../data/siteConfig';
 import Layout from '../../layouts/Layout.astro';
+import { url } from '../../utils/url';
 
 export const getStaticPaths = (() => {
   return services.map((service) => ({
@@ -78,9 +79,9 @@ const iconMarkup = iconMap[service.icon] ?? iconMap.shield;
 <Layout title={service.title} description={service.shortDescription}>
   <section class="bg-card py-4 text-sm text-muted-foreground">
     <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-6" data-reveal>
-      <a href="/" class="transition-colors hover:text-accent">Inicio</a>
+      <a href={url('/')} class="transition-colors hover:text-accent">Inicio</a>
       <span aria-hidden="true">&gt;</span>
-      <a href="/servicios" class="transition-colors hover:text-accent">Servicios</a>
+      <a href={url('/servicios')} class="transition-colors hover:text-accent">Servicios</a>
       <span aria-hidden="true">&gt;</span>
       <span class="font-medium text-foreground">{service.title}</span>
     </div>
@@ -122,7 +123,7 @@ const iconMarkup = iconMap[service.icon] ?? iconMap.shield;
           <div class="mt-6 space-y-4">
             {relatedServices.map((related) => (
               <a
-                href={`/servicios/${related.slug}`}
+                href={url(`/servicios/${related.slug}`)}
                 class="group block rounded-2xl border border-border/80 bg-background px-5 py-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
               >
                 <p class="font-serif text-lg font-bold text-foreground transition-colors group-hover:text-accent">

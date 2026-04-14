@@ -4,6 +4,7 @@ import CTABanner from '../components/CTABanner.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import { services } from '../data/services';
 import { siteConfig } from '../data/siteConfig';
+import { url } from '../utils/url';
 
 const featuredServices = services.slice(0, 6);
 const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
@@ -77,7 +78,7 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
           </a>
 
           <a
-            href="/contacto"
+            href={url('/contacto')}
             class="inline-flex items-center justify-center gap-3 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-white hover:text-primary"
           >
             Agende su Consulta
@@ -121,7 +122,7 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
         respuestas oportunas en cada etapa de su caso.
       </p>
       <a
-        href="/nosotros"
+        href={url('/nosotros')}
         class="mt-8 inline-flex items-center gap-2 font-semibold text-accent transition-transform duration-200 hover:translate-x-1 hover:underline"
       >
         Conozca más sobre nosotros <span aria-hidden="true">→</span>
@@ -156,7 +157,7 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
 
       <div class="mt-10 text-center">
         <a
-          href="/servicios"
+          href={url('/servicios')}
           class="inline-flex items-center gap-2 font-semibold text-accent transition-transform duration-200 hover:translate-x-1 hover:underline"
         >
           Ver todos los servicios <span aria-hidden="true">→</span>
@@ -236,7 +237,7 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
           </dl>
 
           <a
-            href="/contacto"
+            href={url('/contacto')}
             class="mt-8 inline-flex items-center gap-2 font-semibold text-accent transition-transform duration-200 hover:translate-x-1 hover:underline"
           >
             Cómo llegar <span aria-hidden="true">→</span>

@@ -3,14 +3,19 @@ import ThemeToggle from './ThemeToggle.astro';
 import { navigation } from '../data/navigation';
 import type { NavItem } from '../data/navigation';
 import { siteConfig } from '../data/siteConfig';
+import { url } from '../utils/url';
 
 const pathname = Astro.url.pathname;
-const homeHref = '/';
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
+const normalizedPathname = basePath && pathname.startsWith(basePath)
+  ? pathname.slice(basePath.length) || '/'
+  : pathname;
+const homeHref = url('/');
 
 const isActive = (href: string) => {
-  if (href === '/') return pathname === '/';
-  if (href === '/servicios') return pathname.startsWith('/servicios');
-  return pathname === href || pathname.startsWith(`${href}/`);
+  if (href === '/') return normalizedPathname === '/';
+  if (href === '/servicios') return normalizedPathname.startsWith('/servicios');
+  return normalizedPathname === href || normalizedPathname.startsWith(`${href}/`);
 };
 
 const servicesItem = navigation.find((item) => item.children?.length);
@@ -34,9 +39,9 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
     <a
       href={homeHref}
       class="group flex min-w-0 items-center gap-3 rounded-full border border-white/10 bg-white/5 px-2.5 py-2 transition duration-300 hover:border-accent/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
-      aria-current={pathname === '/' ? 'page' : undefined}
+      aria-current={normalizedPathname === '/' ? 'page' : undefined}
     >
-      <img src="/logo.png" alt="Consorcio Jurídico HP" class="h-10 w-auto shrink-0" />
+      <img src={url('/logo.png')} alt="" aria-hidden="true" class="h-8 w-auto shrink-0 md:h-10" />
       <span class="min-w-0">
         <span class="block truncate text-sm font-semibold tracking-[0.24em] text-accent/80 uppercase">
           Estudio legal
@@ -52,7 +57,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
         {primaryItems.slice(0, 2).map((item) => (
           <li>
             <a
-              href={item.href}
+              href={url(item.href)}
               class:list={[
                 'rounded-full px-4 py-2 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                 isActive(item.href)
@@ -69,7 +74,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
         {servicesItem && (
           <li class="relative" data-desktop-dropdown>
             <a
-              href={servicesItem.href}
+              href={url(servicesItem.href)}
               class:list={[
                 'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                 isActive(servicesItem.href)
@@ -101,7 +106,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
                     <p class="mt-1 font-serif text-xl text-white">Defensa y acompañamiento jurídico integral</p>
                   </div>
                   <a
-                    href={servicesItem.href}
+                     href={url(servicesItem.href)}
                     class="rounded-full border border-accent/30 px-4 py-2 text-xs font-semibold tracking-[0.24em] text-accent uppercase transition hover:border-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary"
                   >
                     Ver todo
@@ -114,7 +119,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
                       {column.map((service) => (
                         <li>
                           <a
-                            href={service.href}
+                            href={url(service.href)}
                             class:list={[
                               'block rounded-2xl border px-4 py-3 text-sm leading-relaxed transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                               isActive(service.href)
@@ -137,7 +142,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
         {primaryItems.slice(2).map((item) => (
           <li>
             <a
-              href={item.href}
+              href={url(item.href)}
               class:list={[
                 'rounded-full px-4 py-2 text-sm font-medium tracking-wide transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                 isActive(item.href)
@@ -199,7 +204,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
           {primaryItems.slice(0, 2).map((item) => (
             <li>
               <a
-                href={item.href}
+                href={url(item.href)}
                 class:list={[
                   'block rounded-2xl px-4 py-3 text-sm font-medium transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                   isActive(item.href)
@@ -218,7 +223,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
             <li class="rounded-[1.4rem] border border-white/10 bg-white/[0.04] p-1.5">
               <div class="flex items-center gap-2">
                 <a
-                  href={servicesItem.href}
+                  href={url(servicesItem.href)}
                   class:list={[
                     'min-w-0 flex-1 rounded-xl px-3 py-3 text-sm font-medium transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                     isActive(servicesItem.href)
@@ -253,7 +258,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
                   {servicesItem.children?.map((service) => (
                     <li>
                       <a
-                        href={service.href}
+                        href={url(service.href)}
                         class:list={[
                           'block rounded-xl border px-3 py-3 text-sm leading-relaxed transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                           isActive(service.href)
@@ -274,7 +279,7 @@ const servicesColumns = servicesItem?.children?.reduce<NavItem[][]>((columns, it
           {primaryItems.slice(2).map((item) => (
             <li>
               <a
-                href={item.href}
+                href={url(item.href)}
                 class:list={[
                   'block rounded-2xl px-4 py-3 text-sm font-medium transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-primary',
                   isActive(item.href)

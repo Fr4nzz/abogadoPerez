@@ -1,4 +1,6 @@
 ---
+import { url } from '../utils/url';
+
 interface Props {
   name: string;
   title: string;
@@ -14,7 +16,7 @@ const { name, title, specialization, bio, imageUrl }: Props = Astro.props;
   <div class="flex h-48 items-center justify-center overflow-hidden bg-primary/10">
     {
       imageUrl ? (
-        <img src={imageUrl} alt={name} class="h-full w-full object-cover" loading="lazy" />
+        <img src={url(imageUrl)} alt={name} class="h-full w-full object-cover" loading="lazy" />
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"

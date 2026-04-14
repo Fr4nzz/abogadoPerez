@@ -3,6 +3,7 @@ import CTABanner from '../components/CTABanner.astro';
 import { faq } from '../data/faq';
 import { siteConfig } from '../data/siteConfig';
 import Layout from '../layouts/Layout.astro';
+import { url } from '../utils/url';
 
 const faqStructuredData = {
   '@context': 'https://schema.org',
@@ -109,7 +110,7 @@ const faqStructuredData = {
         </a>
 
         <a
-          href="/contacto"
+          href={url('/contacto')}
           class="inline-flex min-w-56 items-center justify-center gap-3 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:-translate-y-0.5 hover:brightness-105"
         >
           <svg
