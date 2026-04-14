@@ -150,9 +150,10 @@ const values = [
           <div class="flex min-h-[340px] items-center justify-center bg-primary p-10 text-primary-foreground">
             <div class="relative h-full w-full overflow-hidden rounded-[1.5rem] border border-white/15 bg-white/5">
               <img
-                src={url(leadLawyer.imageUrl ?? '/foto-oficina.jpg')}
+                src={url('/foto-oficina.jpg')}
                 alt={`Fotografía de ${leadLawyer.name}`}
                 class="h-full min-h-[340px] w-full object-cover"
+                style="image-orientation: none;"
                 loading="eager"
               />
               <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary via-primary/75 to-transparent p-6 text-left">
