@@ -1,0 +1,260 @@
+---
+import type { GetStaticPaths } from 'astro';
+import CTABanner from '../../components/CTABanner.astro';
+import { team, type TeamMember } from '../../data/team';
+import { siteConfig } from '../../data/siteConfig';
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../utils/url';
+
+export const getStaticPaths = (() => {
+  return team.map((member) => ({
+    params: { slug: member.slug },
+    props: { member },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  member: TeamMember;
+}
+
+const { member }: Props = Astro.props;
+
+const otherMembers = team.filter((m) => m.slug !== member.slug);
+
+const whatsappMessage = `Hola, deseo agendar una consulta con ${member.name}.`;
+const whatsappUrl = `https://wa.me/${siteConfig.phoneInternational.replace('+', '')}?text=${encodeURIComponent(whatsappMessage)}`;
+
+const isFemale = member.title.toLowerCase().includes('abogada');
+const lawyerLabel = isFemale ? 'Abogada graduada' : 'Abogado graduado';
+---
+
+<Layout title={member.name} description={`${member.name} — ${member.title}. ${member.specialization}. Consorcio Jurídico HP en Quito, Ecuador.`}>
+  <section class="bg-card py-4 text-sm text-muted-foreground">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-6" data-reveal>
+      <a href={url('/')} class="transition-colors hover:text-accent">Inicio</a>
+      <span aria-hidden="true">&gt;</span>
+      <a href={url('/nosotros')} class="transition-colors hover:text-accent">Nosotros</a>
+      <span aria-hidden="true">&gt;</span>
+      <span class="font-medium text-foreground">{member.name}</span>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="mx-auto max-w-7xl px-6">
+      <div class="grid gap-10 lg:grid-cols-[380px_minmax(0,1fr)] lg:items-start" data-reveal>
+        <div class="overflow-hidden rounded-[2rem] border border-border bg-primary shadow-[0_30px_90px_-50px_rgba(15,23,42,0.65)]">
+          {member.imageUrl ? (
+            <img
+              src={url(member.imageUrl)}
+              alt={`Fotografía de ${member.name}`}
+              class="aspect-square w-full object-cover"
+              style="image-orientation: none;"
+              loading="eager"
+            />
+          ) : (
+            <div class="flex aspect-square w-full items-center justify-center bg-primary/90 text-primary-foreground/40">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-32 w-32"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="8" r="3.5"></circle>
+                <path d="M5 20a7 7 0 0 1 14 0"></path>
+                <path d="M3.5 20h17"></path>
+              </svg>
+            </div>
+          )}
+          <div class="space-y-2 p-6 text-primary-foreground">
+            <p class="text-xs font-semibold uppercase tracking-[0.32em] text-accent/90">{member.title}</p>
+            {member.shortTitle && (
+              <p class="font-serif text-lg leading-snug">{member.shortTitle}</p>
+            )}
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <header class="space-y-3">
+            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-accent">{member.title}</p>
+            <h1 class="font-serif text-3xl font-bold text-foreground md:text-4xl">{member.name}</h1>
+            {member.shortTitle && (
+              <p class="text-base font-semibold text-primary">{member.shortTitle}</p>
+            )}
+          </header>
+
+          <div class="space-y-5 text-base leading-8 text-muted-foreground">
+            <p>{member.longBio ?? member.bio}</p>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-border bg-card p-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Áreas de práctica</p>
+              <ul class="mt-3 space-y-2 text-sm leading-7 text-foreground">
+                {member.practiceAreas.map((area) => (
+                  <li class="flex items-start gap-3">
+                    <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+                    <span>{area}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="rounded-2xl border border-border bg-card p-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Formación</p>
+              {member.university && member.graduationYear && (
+                <p class="mt-3 text-sm leading-7 text-foreground">
+                  {lawyerLabel} en <strong>{member.graduationYear}</strong> — {member.university}.
+                </p>
+              )}
+              {member.credentials && member.credentials.length > 0 && (
+                <ul class="mt-4 space-y-2 text-sm leading-7 text-muted-foreground">
+                  {member.credentials.map((credential) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+                      <span>{credential}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {member.yearJoined && (
+                <p class="mt-4 text-sm leading-7 text-muted-foreground">
+                  Integrante del Consorcio Jurídico HP desde <strong>{member.yearJoined}</strong>.
+                </p>
+              )}
+            </div>
+
+            {member.positions && member.positions.length > 0 && (
+              <div class="rounded-2xl border border-border bg-card p-5 sm:col-span-2">
+                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Trayectoria profesional</p>
+                <ul class="mt-3 space-y-3 text-sm leading-7 text-foreground">
+                  {member.positions.map((position) => (
+                    <li class="flex items-start gap-3">
+                      <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
+                      <span>{position}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <div class="rounded-[2rem] border border-accent/20 bg-primary p-6 text-primary-foreground shadow-lg shadow-primary/10">
+            <p class="text-sm font-semibold uppercase tracking-[0.32em] text-accent">Agende su consulta</p>
+            <h2 class="mt-3 font-serif text-2xl font-bold">
+              ¿Desea coordinar una consulta con {member.name}?
+            </h2>
+            <p class="mt-3 text-sm leading-7 text-primary-foreground/80">
+              Contáctenos por WhatsApp o teléfono y le agendaremos una atención personalizada.
+            </p>
+
+            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5 hover:bg-emerald-400"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M20 11.5A8.5 8.5 0 0 1 7.4 19l-3.4 1 1.1-3.2A8.5 8.5 0 1 1 20 11.5Z"></path>
+                  <path d="M9.2 8.8c.2-.5.4-.5.7-.5h.6c.2 0 .5 0 .7.5l.5 1.3c.1.3 0 .6-.2.8l-.5.6c-.2.2-.2.4-.1.6.4.7 1 1.3 1.7 1.8.2.1.5.1.6-.1l.6-.5c.2-.2.5-.3.8-.2l1.3.5c.5.2.5.5.5.7v.6c0 .3 0 .5-.5.7-.5.2-1.6.4-3-.2a9.3 9.3 0 0 1-4.2-4.2c-.6-1.4-.4-2.5-.2-3Z"></path>
+                </svg>
+                Escribir por WhatsApp
+              </a>
+
+              <a
+                href={`tel:${siteConfig.phoneInternational}`}
+                class="inline-flex flex-1 items-center justify-center gap-3 rounded-full bg-white/12 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition-transform duration-200 hover:-translate-y-0.5 hover:bg-white/18"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M5 4h4l2 5-2.5 1.5a16.3 16.3 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2.2 2A17.8 17.8 0 0 1 3 6.2 2 2 0 0 1 5 4Z"></path>
+                </svg>
+                Llamar ahora
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {otherMembers.length > 0 && (
+    <section class="bg-card py-16">
+      <div class="mx-auto max-w-7xl px-6">
+        <div class="mx-auto max-w-2xl text-center" data-reveal>
+          <p class="text-sm font-semibold uppercase tracking-[0.28em] text-accent">Equipo</p>
+          <h2 class="mt-3 font-serif text-3xl font-bold text-foreground">Conozca al resto del equipo</h2>
+        </div>
+
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {otherMembers.map((other) => (
+            <a
+              href={url(`/nosotros/${other.slug}`)}
+              class="group flex items-center gap-5 rounded-2xl border border-border bg-background p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-md"
+              data-reveal
+            >
+              <div class="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary/10">
+                {other.imageUrl ? (
+                  <img
+                    src={url(other.imageUrl)}
+                    alt={other.name}
+                    class="h-full w-full object-cover"
+                    style="image-orientation: none;"
+                    loading="lazy"
+                  />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="h-10 w-10 text-primary/40"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="8" r="3.5"></circle>
+                    <path d="M5 20a7 7 0 0 1 14 0"></path>
+                  </svg>
+                )}
+              </div>
+              <div class="flex-1">
+                <p class="font-serif text-lg font-bold text-foreground transition-colors group-hover:text-accent">{other.name}</p>
+                <p class="mt-1 text-sm font-semibold text-accent">{other.title}</p>
+                <p class="mt-1 text-sm text-muted-foreground">{other.specialization}</p>
+              </div>
+              <span aria-hidden="true" class="text-2xl text-accent">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTABanner />
+</Layout>

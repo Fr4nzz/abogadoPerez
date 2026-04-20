@@ -2,6 +2,7 @@
 import { url } from '../utils/url';
 
 interface Props {
+  slug: string;
   name: string;
   title: string;
   specialization: string;
@@ -9,44 +10,51 @@ interface Props {
   imageUrl?: string;
 }
 
-const { name, title, specialization, bio, imageUrl }: Props = Astro.props;
+const { slug, name, title, specialization, bio, imageUrl }: Props = Astro.props;
+const memberUrl = url(`/nosotros/${slug}`);
 ---
 
-<article data-reveal class="overflow-hidden rounded-xl border border-border bg-card">
-  <div class="flex h-48 items-center justify-center overflow-hidden bg-primary/10">
-    {
-      imageUrl ? (
-        <img src={url(imageUrl)} alt={name} class="h-full w-full object-cover" style="image-orientation: none;" loading="lazy" />
-      ) : (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="h-24 w-24 text-primary/40"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="8" r="3.5"></circle>
-          <path d="M5 20a7 7 0 0 1 14 0"></path>
-          <path d="M3.5 20h17"></path>
-        </svg>
-      )
-    }
-  </div>
-
-  <div class="space-y-4 p-6">
-    <div>
-      <h3 class="font-serif text-xl font-bold text-foreground">{name}</h3>
-      <p class="mt-1 text-sm font-semibold text-accent">{title}</p>
+<article data-reveal class="overflow-hidden rounded-xl border border-border bg-card transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-lg">
+  <a href={memberUrl} class="block focus:outline-none focus-visible:ring-2 focus-visible:ring-accent" aria-label={`Ver perfil de ${name}`}>
+    <div class="flex h-48 items-center justify-center overflow-hidden bg-primary/10">
+      {
+        imageUrl ? (
+          <img src={url(imageUrl)} alt={name} class="h-full w-full object-cover" style="image-orientation: none;" loading="lazy" />
+        ) : (
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-24 w-24 text-primary/40"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="8" r="3.5"></circle>
+            <path d="M5 20a7 7 0 0 1 14 0"></path>
+            <path d="M3.5 20h17"></path>
+          </svg>
+        )
+      }
     </div>
 
-    <span class="inline-flex rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary dark:text-accent">
-      {specialization}
-    </span>
+    <div class="space-y-4 p-6">
+      <div>
+        <h3 class="font-serif text-xl font-bold text-foreground transition-colors group-hover:text-accent">{name}</h3>
+        <p class="mt-1 text-sm font-semibold text-accent">{title}</p>
+      </div>
 
-    <p class="text-sm leading-6 text-muted-foreground line-clamp-4">{bio}</p>
-  </div>
+      <span class="inline-flex rounded-full border border-accent/20 bg-accent/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary dark:text-accent">
+        {specialization}
+      </span>
+
+      <p class="text-sm leading-6 text-muted-foreground line-clamp-4">{bio}</p>
+
+      <p class="pt-2 text-sm font-semibold text-accent">
+        Ver perfil completo <span aria-hidden="true">→</span>
+      </p>
+    </div>
+  </a>
 </article>

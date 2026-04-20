@@ -4,9 +4,6 @@ import TeamCard from '../components/TeamCard.astro';
 import { siteConfig } from '../data/siteConfig';
 import { team } from '../data/team';
 import Layout from '../layouts/Layout.astro';
-import { url } from '../utils/url';
-
-const leadLawyer = team[0];
 
 const values = [
   'Ética profesional',
@@ -20,7 +17,7 @@ const values = [
 
 <Layout
   title="Quiénes Somos"
-  description="Conozca al equipo de abogados de Consorcio Jurídico HP en Quito, Ecuador."
+  description="Conozca al equipo de abogados de Consorcio Jurídico HP en Quito, Ecuador. Atendemos procesos legales a nivel nacional."
 >
   <section class="bg-primary py-20 text-center text-white">
     <div class="mx-auto max-w-4xl px-6">
@@ -70,8 +67,8 @@ const values = [
               <p class="mt-2 text-sm leading-6 text-muted-foreground">Profesionales integrando una atención multidisciplinaria.</p>
             </div>
             <div class="rounded-2xl border border-border bg-background/80 p-5">
-              <p class="text-3xl font-serif font-bold text-primary">Quito</p>
-              <p class="mt-2 text-sm leading-6 text-muted-foreground">Atención jurídica con presencia local y acompañamiento permanente.</p>
+              <p class="text-3xl font-serif font-bold text-primary">Nacional</p>
+              <p class="mt-2 text-sm leading-6 text-muted-foreground">Atendemos procesos legales a nivel nacional desde Quito.</p>
             </div>
           </div>
 
@@ -145,77 +142,11 @@ const values = [
 
   <section class="py-16">
     <div class="mx-auto max-w-6xl px-6">
-      <div data-reveal class="overflow-hidden rounded-[2rem] border border-border bg-card shadow-[0_30px_90px_-50px_rgba(15,23,42,0.65)]">
-        <div class="grid gap-0 lg:grid-cols-[380px_minmax(0,1fr)]">
-          <div class="relative bg-primary lg:self-start">
-            <img
-              src={url('/foto-oficina.jpg')}
-              alt={`Fotografía de ${leadLawyer.name}`}
-              class="aspect-square w-full object-cover"
-              loading="eager"
-            />
-            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-primary via-primary/75 to-transparent p-6 text-left">
-              <p class="text-xs font-semibold uppercase tracking-[0.32em] text-accent/90">Director Jurídico</p>
-              <p class="mt-2 text-sm leading-7 text-primary-foreground/80">Atención cercana y personalizada desde Quito.</p>
-            </div>
-          </div>
-
-          <div class="p-8 md:p-10 lg:p-12">
-            <p class="text-sm font-semibold uppercase tracking-[0.28em] text-accent">Director Jurídico</p>
-            <h2 class="mt-3 font-serif text-3xl font-bold text-foreground md:text-4xl">{leadLawyer.name}</h2>
-            <p class="mt-3 text-base font-semibold text-primary">Abogado de los Tribunales y Juzgador de la República del Ecuador</p>
-
-            <div class="mt-8 space-y-5 text-base leading-8 text-muted-foreground">
-              <p>{leadLawyer.bio}</p>
-              <p>
-                Abogado graduado en <strong>{leadLawyer.graduationYear}</strong> de la <strong>{leadLawyer.university}</strong>. Ejerce el libre ejercicio profesional desde {leadLawyer.graduationYear} y dirige el Consorcio Jurídico HP desde {siteConfig.foundedYear}. Entre {2014} y {2018} se desempeñó como <strong>Asesor Jurídico de la Presidencia de la República del Ecuador</strong>.
-              </p>
-              <p>
-                Su práctica se enfoca en <strong>{leadLawyer.specialization}</strong>, brindando asesoría preventiva, patrocinio judicial y acompañamiento en trámites administrativos y extrajudiciales con un enfoque estratégico y responsable.
-              </p>
-            </div>
-
-            <div class="mt-8 grid gap-4 md:grid-cols-2">
-              <div class="rounded-2xl border border-border bg-background p-5">
-                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Áreas principales</p>
-                <p class="mt-3 text-sm leading-7 text-foreground">{leadLawyer.specialization}</p>
-              </div>
-              <div class="rounded-2xl border border-border bg-background p-5">
-                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Trayectoria institucional</p>
-                <p class="mt-3 text-sm leading-7 text-foreground">
-                  Asesor Jurídico de la Presidencia de la República del Ecuador (2014 – 2018). Director del Consorcio Jurídico HP desde 2014.
-                </p>
-              </div>
-              <div class="rounded-2xl border border-border bg-background p-5 md:col-span-2">
-                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-accent">Formación académica</p>
-                <p class="mt-3 text-sm leading-7 text-foreground">
-                  Abogado graduado en {leadLawyer.graduationYear} — {leadLawyer.university}.
-                </p>
-                {leadLawyer.credentials && (
-                  <ul class="mt-4 grid gap-2 text-sm leading-7 text-muted-foreground sm:grid-cols-2">
-                    {leadLawyer.credentials.map((credential) => (
-                      <li class="flex items-start gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
-                        <span>{credential}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-card py-16">
-    <div class="mx-auto max-w-6xl px-6">
       <div data-reveal class="mx-auto max-w-3xl text-center">
         <p class="text-sm font-semibold uppercase tracking-[0.28em] text-accent">Equipo</p>
         <h2 class="mt-3 font-serif text-3xl font-bold text-foreground md:text-4xl">Nuestro Equipo</h2>
         <p class="mt-4 text-base leading-7 text-muted-foreground">
-          Un equipo comprometido con brindar asesoría y patrocinio legal con cercanía, preparación y responsabilidad profesional.
+          Un equipo comprometido con brindar asesoría y patrocinio legal con cercanía, preparación y responsabilidad profesional. Haga clic en cualquier miembro para conocer su perfil completo.
         </p>
       </div>
 
