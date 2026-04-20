@@ -7,7 +7,7 @@ import { siteConfig } from '../data/siteConfig';
 import { url } from '../utils/url';
 
 const featuredServices = services.slice(0, 6);
-const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
+const fullAddress = `${siteConfig.address.building}, ${siteConfig.address.floor}, ${siteConfig.address.office}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
 ---
 
 <Layout
@@ -193,15 +193,18 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
     <div class="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12">
       <div class="mx-auto max-w-3xl text-center">
         <p class="text-sm font-semibold uppercase tracking-[0.26em] text-accent">Ubicación y contacto</p>
-        <h2 class="mt-4 text-3xl font-serif font-bold text-foreground">Encuéntrenos</h2>
+        <h2 class="mt-4 text-3xl font-serif font-bold text-foreground">Oficina en Quito, cobertura nacional</h2>
+        <p class="mt-4 text-base leading-7 text-muted-foreground">
+          Atendemos procesos legales a nivel nacional desde nuestra oficina en el sector La Alameda.
+        </p>
       </div>
 
       <div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_1.2fr] lg:items-center">
         <div class="rounded-2xl border border-border bg-background/80 p-8 shadow-sm">
-          <h3 class="text-2xl font-serif font-bold text-foreground">Atención en el centro-norte de Quito</h3>
+          <h3 class="text-2xl font-serif font-bold text-foreground">Edificio Parlamento — La Alameda</h3>
           <p class="mt-4 leading-7 text-muted-foreground">
-            Estamos ubicados en una zona estratégica para facilitar reuniones presenciales, revisión de
-            documentación y seguimiento oportuno de su caso.
+            Nuestra oficina se encuentra en una zona céntrica de Quito, cerca del Palacio Legislativo,
+            ideal para reuniones presenciales, revisión de documentación y seguimiento oportuno de su caso.
           </p>
 
           <dl class="mt-8 space-y-5 text-sm sm:text-base">
@@ -211,7 +214,7 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
             </div>
             <div>
               <dt class="font-semibold uppercase tracking-[0.2em] text-accent">Referencia</dt>
-              <dd class="mt-2 leading-7 text-foreground">Junto a la Asamblea Nacional del Ecuador</dd>
+              <dd class="mt-2 leading-7 text-foreground">Edificio Parlamento, 2do piso, oficina 202 — sector La Alameda, cerca del Palacio Legislativo</dd>
             </div>
             <div>
               <dt class="font-semibold uppercase tracking-[0.2em] text-accent">Teléfono</dt>

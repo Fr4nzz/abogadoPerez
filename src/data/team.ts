@@ -4,35 +4,46 @@ export interface TeamMember {
   specialization: string;
   bio: string;
   imageUrl?: string;
+  credentials?: string[];
+  yearJoined?: number;
+  university?: string;
+  graduationYear?: number;
 }
 
 export const team: TeamMember[] = [
   {
     name: 'Dr. Héctor Pérez Vilema',
-    title: 'Director Jurídico / Abogado Principal',
-    specialization: '[INSERTAR ESPECIALIDAD PRINCIPAL]',
-    bio: 'Abogado en libre ejercicio con experiencia en asesoría jurídica, patrocinio legal y atención personalizada de casos en distintas materias. Lidera el despacho con un enfoque de responsabilidad, claridad y compromiso con cada cliente.',
+    title: 'Director Jurídico',
+    specialization:
+      'Derecho Penal, Administrativo, Procedimientos Disciplinarios (Fuerzas Armadas, Policía y Educación), Familia y Civil',
+    bio: 'Abogado de los Tribunales y Juzgador de la República del Ecuador. Propietario y director del Consorcio Jurídico HP — Abogados Asociados desde 2014. Se desempeñó como Asesor Jurídico de la Presidencia de la República del Ecuador entre 2014 y 2018. Su práctica profesional combina la asesoría estratégica, el patrocinio judicial y la defensa técnica de los derechos e intereses de sus clientes.',
     imageUrl: '/foto-oficina.jpg',
+    university: 'Universidad Iberoamericana del Ecuador',
+    graduationYear: 2013,
+    credentials: [
+      'Magíster en Argumentación Jurídica y Litigación Oral',
+      'Magíster en Derecho Procesal Penal',
+      'Magíster en Derecho Procesal Constitucional',
+      'Diplomado en Estrategias Penales',
+      'Diplomado en Derecho Constitucional',
+      'Diplomado en Derecho Administrativo',
+    ],
   },
   {
-    name: 'Ab. [NOMBRE DEL PROFESIONAL]',
-    title: 'Abogada / Abogado Asociado',
-    specialization: 'Derecho de Familia, Niñez y Adolescencia',
-    bio: 'Profesional enfocado en procesos de familia, alimentos, régimen de visitas, tenencia y demás controversias familiares, con atención cercana y orientación práctica.',
-    imageUrl: '/team/abogado-2.jpg',
+    name: 'Ab. Andrea Hernández',
+    title: 'Abogada Asociada',
+    specialization: 'Derecho Notarial, Familia y Civil',
+    bio: 'Profesional integrante del Consorcio Jurídico HP desde 2019. Se enfoca en trámites notariales, procesos de familia (divorcio, alimentos, tenencia, régimen de visitas, unión de hecho) y controversias civiles, brindando atención cercana y orientación práctica en cada caso.',
+    university: 'Universidad Iberoamericana del Ecuador',
+    graduationYear: 2015,
+    yearJoined: 2019,
   },
   {
-    name: 'Ab. [NOMBRE DEL PROFESIONAL]',
-    title: 'Abogada / Abogado Asociado',
-    specialization: 'Derecho Laboral y Seguridad Social',
-    bio: 'Responsable del acompañamiento en conflictos laborales, reclamaciones de trabajadores, vistos buenos, liquidaciones y asesoría preventiva para empleadores.',
-    imageUrl: '/team/abogado-3.jpg',
-  },
-  {
-    name: 'Ab. [NOMBRE DEL PROFESIONAL]',
-    title: 'Abogada / Abogado Asociado',
-    specialization: 'Derecho Civil, Contratos y Cobranzas',
-    bio: 'Profesional orientado a la solución de conflictos civiles, recuperación de cartera, redacción contractual y acompañamiento en trámites judiciales y extrajudiciales.',
-    imageUrl: '/team/abogado-4.jpg',
+    name: 'Ab. Mayra Chango',
+    title: 'Abogada Asociada',
+    specialization: 'Derecho Laboral, Familia y Civil',
+    bio: 'Abogada enfocada en conflictos laborales individuales y colectivos, reclamaciones de trabajadores y empleadores, vistos buenos, liquidaciones, así como asuntos de familia y materia civil. Acompaña a sus clientes con responsabilidad y atención personalizada.',
+    university: 'Universidad Iberoamericana del Ecuador',
+    graduationYear: 2015,
   },
 ];

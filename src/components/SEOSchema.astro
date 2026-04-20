@@ -18,7 +18,7 @@ const schema = {
   image: logoUrl,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: siteConfig.address.street,
+    streetAddress: `${siteConfig.address.building}, ${siteConfig.address.floor}, ${siteConfig.address.office}, ${siteConfig.address.sector}`,
     addressLocality: siteConfig.address.city,
     addressRegion: siteConfig.address.province,
     postalCode: siteConfig.address.postalCode,

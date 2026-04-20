@@ -5,12 +5,12 @@ import { siteConfig } from '../data/siteConfig';
 import Layout from '../layouts/Layout.astro';
 
 const serviceTitles = services.map((service) => service.title);
-const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
+const fullAddress = `${siteConfig.address.building}, ${siteConfig.address.floor}, ${siteConfig.address.office}, ${siteConfig.address.sector}, ${siteConfig.address.city}, ${siteConfig.address.province}, ${siteConfig.address.country}`;
 ---
 
 <Layout
   title="Contacto"
-  description="Contáctenos para una consulta legal. Visítenos en Quito, Av. 6 de Diciembre y Hermanos Pazmiño, sector El Ejido."
+  description="Contáctenos para una consulta legal. Visítenos en Quito, Edificio Parlamento, segundo piso, oficina 202, sector La Alameda. Atendemos a nivel nacional."
 >
   <section class="bg-primary py-20 text-center text-white">
     <div class="mx-auto max-w-4xl px-6" data-reveal>
@@ -258,25 +258,25 @@ const fullAddress = `${siteConfig.address.street}, ${siteConfig.address.sector},
         <div class="rounded-xl border border-border bg-background/70 p-6">
           <h3 class="text-lg font-semibold text-foreground">Referencia</h3>
           <p class="mt-2 leading-7 text-muted-foreground">
-            Junto a la Asamblea Nacional del Ecuador, sector El Ejido
+            Edificio Parlamento, segundo piso, oficina 202 — sector La Alameda, Quito. A pocos pasos del Palacio Legislativo.
           </p>
         </div>
         <div class="rounded-xl border border-border bg-background/70 p-6">
           <h3 class="text-lg font-semibold text-foreground">En metro</h3>
           <p class="mt-2 leading-7 text-muted-foreground">
-            Estación más cercana: El Ejido (Línea 1 del Metro de Quito)
+            Estación más cercana: El Ejido / La Alameda (Línea 1 del Metro de Quito)
           </p>
         </div>
         <div class="rounded-xl border border-border bg-background/70 p-6">
           <h3 class="text-lg font-semibold text-foreground">En taxi</h3>
           <p class="mt-2 leading-7 text-muted-foreground">
-            Solicite que lo lleven a la Av. 6 de Diciembre y Hermanos Pazmiño, junto a la Asamblea Nacional
+            Solicite que lo lleven al Edificio Parlamento, sector La Alameda, cerca del Palacio Legislativo
           </p>
         </div>
         <div class="rounded-xl border border-border bg-background/70 p-6">
           <h3 class="text-lg font-semibold text-foreground">En auto</h3>
           <p class="mt-2 leading-7 text-muted-foreground">
-            Estacionamiento disponible en calles aledañas. Referencia: edificio [INSERTAR NOMBRE DEL EDIFICIO]
+            Estacionamiento disponible en calles aledañas. Referencia: Edificio Parlamento, segundo piso, oficina 202
           </p>
         </div>
       </div>

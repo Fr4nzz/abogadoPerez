@@ -18,10 +18,9 @@ const quickLinks = quickLinkHrefs.flatMap((href) => {
 const practiceLinks = navigation.find((item) => item.href === '/servicios')?.children?.slice(0, 6) ?? [];
 
 const fullAddress = [
-  siteConfig.address.street,
+  `${siteConfig.address.building}, ${siteConfig.address.floor}, ${siteConfig.address.office}`,
   siteConfig.address.sector,
   `${siteConfig.address.city}, ${siteConfig.address.province}`,
-  siteConfig.address.reference,
 ].filter(Boolean).join(' · ');
 
 const currentYear = new Date().getFullYear();
